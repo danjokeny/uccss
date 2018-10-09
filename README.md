@@ -1,2 +1,2 @@
 # uccss
-uccss application server
+University competency center support system (uccss) application server
