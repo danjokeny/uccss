@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Daniel Forero",
-  "license": "ISC"
+  "author": "Danny Forero",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
