@@ -1,7 +1,13 @@
 var http = require('http');
 var express = require('express');
+var path = require('path');
+
 
 var app = express();
+
+
+app.use(express.static(path.normalize(__dirname) + '/public'));
+
 
 app.use(function(req, res, next){
   console.log('Request from ' + req.ip);
