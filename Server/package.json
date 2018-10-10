@@ -10,6 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
+    "grunt": "^1.0.3",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-contrib-nodemon": "^0.5.4",
+    "grunt-env": "^0.4.4",
+    "jshint-stylish": "^2.2.1",
     "nodemon": "^1.18.4"
   },
   "devDependencies": {}
