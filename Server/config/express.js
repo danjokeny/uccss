@@ -7,11 +7,27 @@ module.exports = function (app, config) {
   app.use(function (req, res, next) {
     logger.log('info', 'Request from ' + req.connection.remoteAddress);
     next();
-  });  
+  });
 
   app.use(morgan('dev'));
 
   app.use(express.static(config.root + '/public'));
+
+  /*
+  app.get('/willwork',
+    function (req, res, next) {
+      res.set('X-One', 'One');
+      next();
+    },
+    function (req, res, next) {
+      res.set('X-Two', 'Two');
+      next();
+    },
+    function (req, res) {
+      res.send("Three");
+    }
+  );
+*/
 
   app.use(function (req, res) {
     logger.log('error', 'File not found');
