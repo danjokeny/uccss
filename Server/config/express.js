@@ -7,15 +7,10 @@ module.exports = function (app, config) {
   app.use(function (req, res, next) {
     logger.log('info', 'Request from ' + req.connection.remoteAddress);
     next();
-<<<<<<< HEAD
   });
 
   app.use(morgan('dev'));
 
-=======
-  });  
-  
->>>>>>> parent of c179427... Grunt added
   app.use(express.static(config.root + '/public'));
 
   /*
