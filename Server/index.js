@@ -3,8 +3,8 @@ var config = require('./config/config');
 var logger = require('./config/logger');
 
 var app = express();
-var port = process.env.port || 3000
-
+var port = config.port
+ 
 require('./config/express')(app, config);
 
 require('http').createServer(app).listen(port, function () {
