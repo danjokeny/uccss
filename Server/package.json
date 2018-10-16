@@ -10,22 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
-<<<<<<< HEAD
     "grunt": "^1.0.3",
     "grunt-contrib-jshint": "^2.0.0",
     "grunt-contrib-nodemon": "^0.5.4",
     "grunt-env": "^0.4.4",
     "jshint-stylish": "^2.2.1",
-<<<<<<< HEAD
     "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.3.3"
-=======
-=======
->>>>>>> parent of c179427... Grunt added
-    "nodemon": "^1.18.4"
->>>>>>> parent of e325a9c... logging install winston & morgan
   },
   "devDependencies": {}
 }
