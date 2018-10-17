@@ -13,19 +13,7 @@ module.exports = function (app, config) {
 
   app.use(express.static(config.root + '/public'));
 
-  app.get('/willwork',
-    function (req, res, next) {
-      res.set('X-One', 'One');
-      next();
-    },
-    function (req, res, next) {
-      res.set('X-Two', 'Two');
-      next();
-    },
-    function (req, res) {
-      res.send("Three");
-    }
-  );
+  require('../app/controllers/users')(app, config);
 
   app.use(function (req, res) {
     logger.log('error', 'File not found');
