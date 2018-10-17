@@ -1,6 +1,8 @@
 var express = require('express');
 var morgan = require('morgan');
 var logger = require('./logger');
+var bodyParser = require('body-parser');
+
 
 module.exports = function (app, config) {
 
@@ -10,6 +12,12 @@ module.exports = function (app, config) {
   });
 
   app.use(morgan('dev'));
+
+ // app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
 
   app.use(express.static(config.root + '/public'));
 
