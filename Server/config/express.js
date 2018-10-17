@@ -13,7 +13,6 @@ module.exports = function (app, config) {
 
   app.use(express.static(config.root + '/public'));
 
-  /*
   app.get('/willwork',
     function (req, res, next) {
       res.set('X-One', 'One');
@@ -27,7 +26,6 @@ module.exports = function (app, config) {
       res.send("Three");
     }
   );
-*/
 
   app.use(function (req, res) {
     logger.log('error', 'File not found');
