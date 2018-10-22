@@ -12,10 +12,27 @@ module.exports = function (app, config) {
     });
     
     router.route('/users/:id').get(function (req, res, next) {
+        console.log(req.body);
         logger.log('info', 'Get user %s', req.params.id);
         res.status(200).json({ message: 'Get user = ' + req.params.id });
     });
-    
+
+    router.route('/updatePW/:Email/:newPW').get(function (req, res, next) {
+        logger.log('info', 'Get user %s', req.params.id);
+        var Email = req.params.Email
+        var newPW = req.params.newPW;
+        res.status(200).json({ message: 'Update password for user = ' + Email 
+        + 'to now be = ' + newPW });
+    });
+
+    router.route('/update/:oldEmail/:newEmail').get(function (req, res, next) {
+        logger.log('info', 'Get user %s', req.params.id);
+        var emailOld = req.params.oldEmail
+        var emailNew = req.params.newEmail;
+        res.status(200).json({ message: 'Update existing user = ' + emailOld 
+        + 'to now be = ' + emailNew });
+    });
+     
     router.route('/login').post(function (req, res, next) {
         console.log(req.body);
         var email = req.body.email
@@ -25,14 +42,9 @@ module.exports = function (app, config) {
         res.status(201).json(obj);
     });
 
-    router.route('/update').put(function (req, res, next) {
-        console.log(req.body);
-        var email = req.body.email
-        var emailNew = req.body.email2;
-        logger.log('info', 'Updated(PUT) existing user ' + email + ' to ' + emailNew );
-        var obj = { 'Existing email': email, 'New Email': emailNew };
-        res.status(201).json(obj);
-    });  
-
-
+    router.route('/Delete/:Email/').get(function (req, res, next) {
+        logger.log('info', 'Get user %s', req.params.id);
+        var Email = req.params.Email
+        res.status(200).json({ message: 'Delete user = ' + Email  });
+    });
 };
