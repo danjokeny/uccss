@@ -7,33 +7,20 @@ module.exports = function (app, config) {
     app.use('/api', router);
 
     router.route('/users').get(function (req, res, next) {
+        //Get All Users Request
         logger.log('info', 'Get all users');
         res.status(200).json({ message: 'Got All Users' })
     });
     
     router.route('/users/:id').get(function (req, res, next) {
+        //Get specific User Request
         console.log(req.body);
         logger.log('info', 'Get user %s', req.params.id);
         res.status(200).json({ message: 'Get user = ' + req.params.id });
     });
 
-    router.route('/updatePW/:Email/:newPW').get(function (req, res, next) {
-        logger.log('info', 'Get user %s', req.params.id);
-        var Email = req.params.Email
-        var newPW = req.params.newPW;
-        res.status(200).json({ message: 'Update password for user = ' + Email 
-        + 'to now be = ' + newPW });
-    });
-
-    router.route('/update/:oldEmail/:newEmail').get(function (req, res, next) {
-        logger.log('info', 'Get user %s', req.params.id);
-        var emailOld = req.params.oldEmail
-        var emailNew = req.params.newEmail;
-        res.status(200).json({ message: 'Update existing user = ' + emailOld 
-        + 'to now be = ' + emailNew });
-    });
-     
     router.route('/login').post(function (req, res, next) {
+        //Post new user request / login?
         console.log(req.body);
         var email = req.body.email
         var password = req.body.password;
@@ -41,8 +28,40 @@ module.exports = function (app, config) {
         var obj = { 'email': email, 'password': password };
         res.status(201).json(obj);
     });
+/*
+    //PUT not working
+    router.route('/update/:oldEmail/:newEmail').put(function (req, res, next) {
+        //Update old email to new email 
+        //THIS IS NOT WORKING
+        logger.log('info', 'Get user %s', req.params.id);
+        var emailOld = req.params.oldEmail
+        var emailNew = req.params.newEmail;
+        res.status(200).json({ message: 'Update existing user = ' + emailOld 
+        + 'to now be = ' + emailNew });
+    });
+*/
+    //GET works, perform update within the code
+    router.route('/update/:oldEmail/:newEmail').get(function (req, res, next) {
+        //Update old email to new email
+        logger.log('info', 'Get user %s', req.params.id);
+        var emailOld = req.params.oldEmail
+        var emailNew = req.params.newEmail;
+        res.status(200).json({ message: 'Update existing user = ' + emailOld 
+        + 'to now be = ' + emailNew });
+    });
+    
+
+    router.route('/updatePW/:Email/:newPW').get(function (req, res, next) {
+        //change password on existing user
+        logger.log('info', 'Get user %s', req.params.id);
+        var Email = req.params.Email
+        var newPW = req.params.newPW;
+        res.status(200).json({ message: 'Update password for user = ' + Email 
+        + 'to now be = ' + newPW });
+    });
 
     router.route('/Delete/:Email/').get(function (req, res, next) {
+        //Delete existing userid
         logger.log('info', 'Get user %s', req.params.id);
         var Email = req.params.Email
         res.status(200).json({ message: 'Delete user = ' + Email  });
