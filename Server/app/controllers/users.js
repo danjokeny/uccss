@@ -1,7 +1,10 @@
 
 var express = require('express'),
     router = express.Router(),
-    logger = require('../../config/logger');
+    logger = require('../../config/logger'),
+    mongoose = require('mongoose'),
+    User = mongoose.model('User');
+
 
 module.exports = function (app, config) {
     app.use('/api', router);
@@ -12,7 +15,7 @@ module.exports = function (app, config) {
         logger.log('info', 'Get all users');
         res.status(200).json({ message: 'Got All Users' })
     });
-    
+
     router.route('/users/:id').get(function (req, res, next) {
         //Get specific User Request 
         //http://localhost:5000/api/users/id:danny
@@ -27,7 +30,7 @@ module.exports = function (app, config) {
         console.log(req.body);
         var email = req.body.email
         var password = req.body.password;
-        logger.log('info', 'Login existing user ' + email );
+        logger.log('info', 'Login existing user ' + email);
         var obj = { 'email': email, 'password': password };
         res.status(201).json(obj);
     });
@@ -36,23 +39,43 @@ module.exports = function (app, config) {
         //create new user request 
         //create new userid from html index page link
         console.log(req.body);
-        var email = req.body.email
-        var password = req.body.password;
-        logger.log('info', 'Create a new user ' + email );
-        var obj = { 'New user email': email, 'password': password };
-        res.status(201).json(obj);
+        //var email = req.body.email
+        //var password = req.body.password;
+        //logger.log('info', 'Create a new user ' + email);
+        //var obj = { 'New user email': email, 'password': password };
+        //
+        logger.log('Create User', 'verbose');
+        var user = new User(req.body);
+        user.save()
+            .then(result => {
+                res.status(201).json(result);
+            })
+            .catch(err => {
+                return next(err);
+            });
+        //res.status(201).json(obj);
     });
 
-    router.route('/createNew/:Email/:PW').post(function (req, res, next) {
+    //   router.route('/createNew/:Email/:PW').post(function (req, res, next) {
+    router.route('/createNew').post(function (req, res, next) {
         //create new user API
         //Sample:
         //http://localhost:5000/api/createNew/:dawn@gmail.com/9876
-        console.log(req.body);
+       /* console.log(req.body);
         var email = req.params.Email
         var password = req.params.PW;
-        logger.log('info', 'CreateAPI new user ' + email );
+        logger.log('info', 'CreateAPI new user ' + email);
         var obj = { 'New user email': email, 'password': password };
-        res.status(201).json(obj);
+        res.status(201).json(obj);*/
+        logger.log('Create User', 'verbose');
+        var user = new User(req.body);
+        user.save()
+            .then(result => {
+                res.status(201).json(result);
+            })
+            .catch(err => {
+                return next(err);
+            });
     });
 
     router.route('/update/:oldEmail/:newEmail').put(function (req, res, next) {
@@ -62,19 +85,23 @@ module.exports = function (app, config) {
         logger.log('info', 'Get user %s', req.params.id);
         var emailOld = req.params.oldEmail
         var emailNew = req.params.newEmail;
-        res.status(200).json({ message: 'Update(PUT) existing user = ' + emailOld 
-        + ' to now be = ' + emailNew });
+        res.status(200).json({
+            message: 'Update(PUT) existing user = ' + emailOld
+                + ' to now be = ' + emailNew
+        });
     });
 
     router.route('/updatePW/:Email/:newPW').put(function (req, res, next) {
         //change password on existing user
         //Sample:
         //http://localhost:5000/api/updatePW/Email:dforero@uwm.edu/newPW:12345
-        logger.log('info', 'Put user %s', req.params.Email + ' with new PW = '+ req.params.newPW);
+        logger.log('info', 'Put user %s', req.params.Email + ' with new PW = ' + req.params.newPW);
         var Email = req.params.Email
         var newPW = req.params.newPW;
-        res.status(200).json({ message: 'Update(PUT) password for user = ' + Email 
-        + 'to now be = ' + newPW });
+        res.status(200).json({
+            message: 'Update(PUT) password for user = ' + Email
+                + 'to now be = ' + newPW
+        });
     });
 
     router.route('/Delete/:Email/').delete(function (req, res, next) {
@@ -83,7 +110,7 @@ module.exports = function (app, config) {
         //http://localhost:5000/api/delete/Email:danjokeny@gmail.com
         logger.log('info', 'Get user %s', req.params.Email);
         var Email = req.params.Email
-        res.status(200).json({ message: 'Delete user = ' + Email  });
+        res.status(200).json({ message: 'Delete user = ' + Email });
     });
 
 
