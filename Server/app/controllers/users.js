@@ -19,48 +19,35 @@ module.exports = function (app, config) {
         res.status(200).json({ message: 'Get user = ' + req.params.id });
     });
 
-    router.route('/login').post(function (req, res, next) {
-        //Post new user request / login?
+    router.route('/login/').get(function (req, res, next) {
+        //Get existing user request / login
         console.log(req.body);
-        var email = req.body.email
-        var password = req.body.password;
-        logger.log('info', 'Created(POST) new user ' + email );
+        var email = req.params.email
+        var password = req.params.password;
+        logger.log('info', 'Login(Get) existing user ' + email );
         var obj = { 'email': email, 'password': password };
         res.status(201).json(obj);
     });
-/*
-    //PUT not working
+
     router.route('/update/:oldEmail/:newEmail').put(function (req, res, next) {
         //Update old email to new email 
-        //THIS IS NOT WORKING
         logger.log('info', 'Get user %s', req.params.id);
         var emailOld = req.params.oldEmail
         var emailNew = req.params.newEmail;
-        res.status(200).json({ message: 'Update existing user = ' + emailOld 
-        + 'to now be = ' + emailNew });
+        res.status(200).json({ message: 'Update(PUT) existing user = ' + emailOld 
+        + ' to now be = ' + emailNew });
     });
-*/
-    //GET works, perform update within the code
-    router.route('/update/:oldEmail/:newEmail').get(function (req, res, next) {
-        //Update old email to new email
-        logger.log('info', 'Get user %s', req.params.id);
-        var emailOld = req.params.oldEmail
-        var emailNew = req.params.newEmail;
-        res.status(200).json({ message: 'Update existing user = ' + emailOld 
-        + 'to now be = ' + emailNew });
-    });
-    
 
-    router.route('/updatePW/:Email/:newPW').get(function (req, res, next) {
+    router.route('/updatePW/:Email/:newPW').put(function (req, res, next) {
         //change password on existing user
-        logger.log('info', 'Get user %s', req.params.id);
+        logger.log('info', 'Put user %s', req.params.id);
         var Email = req.params.Email
         var newPW = req.params.newPW;
-        res.status(200).json({ message: 'Update password for user = ' + Email 
+        res.status(200).json({ message: 'Update(PUT) password for user = ' + Email 
         + 'to now be = ' + newPW });
     });
 
-    router.route('/Delete/:Email/').get(function (req, res, next) {
+    router.route('/Delete/:Email/').delete(function (req, res, next) {
         //Delete existing userid
         logger.log('info', 'Get user %s', req.params.id);
         var Email = req.params.Email
