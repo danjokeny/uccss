@@ -30,16 +30,18 @@ module.exports = function (app, config) {
   });
 
   // app.use(bodyParser.json());
+  app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+
 
   app.use(express.static(config.root + '/public'));
 
   // require('../app/controllers/users')(app, config);
   var models = glob.sync(config.root + '/app/models/*.js');
   models.forEach(function (model) {
-    console.log('model = '+ model)
+    console.log('model = ' + model);
     require(model);
   });
 
@@ -47,7 +49,6 @@ module.exports = function (app, config) {
   controllers.forEach(function (controller) {
     require(controller)(app, config);
   });
-
 
   app.use(function (req, res) {
     logger.log('error', 'File not found');
