@@ -10,6 +10,8 @@ var express = require('express'),
 module.exports = function (app, config) {
     app.use('/api', router);
 
+    //API Calls below
+
     //Get All Users Async Request
     //Sample: http://localhost:5000/api/users/
     router.get('/users', asyncHandler(async (req, res) => {
@@ -21,7 +23,7 @@ module.exports = function (app, config) {
         })
     }));
     
-    //Get specific User Request 
+    //Get specific User id Request 
     //Sample: http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
     router.get('/users/:id', asyncHandler(async (req, res) => {
         logger.log('info', 'Get specific user by id =  %s', req.params.id);
@@ -30,10 +32,8 @@ module.exports = function (app, config) {
         })
     }));
 
-    //create new user request 
-    //api Post with json passed in raw body
-    //Sample:
-    //http://localhost:5000/api/createNew
+    //create new user api Post request with json passed in raw body
+    //Sample: http://localhost:5000/api/createNew
     /*{
         "fname" : "Amy",    
         "lname" : "Vankauwenberg",    
@@ -51,13 +51,13 @@ module.exports = function (app, config) {
         })
     }));
 
-    //Update existing data
+    //Update existing data row with json passed in raw body
     //Sample:http://localhost:5000/api/update
-    /*    "active": false,
+    /*{ "active": false,
         "_id": "5bd080092c9c2a74ecf2ace2",
         "fname": "Danny",
         "lname": "Forero",
-        "email": "danjokeny@gmail.com",
+        "email": "danjokeny@gmail.com", <--must not change/unique key
         "password": "Pass12345",
         "role": "admin",
         "registerDate": "2018-10-24T14:22:01.128Z",
@@ -74,16 +74,16 @@ module.exports = function (app, config) {
     //Delete existing data
     //Sample:http://localhost:5000/api/Delete/5bd080092c9c2a74ecf2ace2
     router.delete('/Delete/:id', asyncHandler(async (req, res) => {
-            logger.log('info', 'Deleting user id =  %s', req.params.id);
-            await User.remove({ _id: req.params.id })
-                    .then(result => {
-                            res.status(200).json(result);
-                })
+        logger.log('info', 'Deleting user id =  %s', req.params.id);
+        await User.remove({ _id: req.params.id })
+                .then(result => {
+                        res.status(200).json(result);
+        })
     }));
 
     //HTML calls below 
 
-    //Login existing userid from html index page link
+    //Login/retrieve existing user id from html index page link
     router.post('/login', asyncHandler(async (req, res) => {
         console.log(req.body);
         var id = req.body.id
@@ -96,9 +96,9 @@ module.exports = function (app, config) {
     //create new userid from html index page link
     router.post('/create', asyncHandler(async (req, res) => {
         var user = new User(req.body);
-        console.log(req.body);
         var email = req.body.email
         logger.log('info', 'Creating user from html for email ' + email);
+        logger.log('info', 'insert row ' + user);
         await user.save()
                 .then(result => {
                         res.status(201).json(result);
