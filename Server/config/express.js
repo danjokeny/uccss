@@ -39,6 +39,7 @@ module.exports = function (app, config) {
   // require('../app/controllers/users')(app, config);
   var models = glob.sync(config.root + '/app/models/*.js');
   models.forEach(function (model) {
+    console.log('model = '+ model)
     require(model);
   });
 
