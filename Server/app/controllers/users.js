@@ -31,7 +31,7 @@ module.exports = function (app, config) {
     });*/
     router.get('/users/:id', asyncHandler(async (req, res) => {
         //Get specific User Request 
-        //http://localhost:5000/api/users/id:danny
+        //http://localhost:5000/api/users/5bd0b6a95c60d3e2c4f1c3d4
         logger.log('info','Get specific user by id =  %s',req.params.id);
         await User.findById(req.params.id).then(result => {
             res.status(200).json(result); 
@@ -111,6 +111,7 @@ module.exports = function (app, config) {
         });
     });
 
+    /*
     router.route('/Delete/:Email/').delete(function (req, res, next) {
         //Delete existing userid
         //sample:
@@ -118,7 +119,15 @@ module.exports = function (app, config) {
         logger.log('info', 'Get user %s', req.params.Email);
         var Email = req.params.Email
         res.status(200).json({ message: 'Delete user = ' + Email });
-    });
+    });*/
+    router.delete('/Delete/:id', asyncHandler(async (req, res) => {
+        logger.log('info', 'Deleting user id =  %s', req.params.id);
+        await User.remove({ _id: req.params.id })
+            .then(result => {
+                res.status(200).json(result);
+        })
+    }));
+        
 
 
     };
