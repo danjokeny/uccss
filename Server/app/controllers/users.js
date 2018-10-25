@@ -1,3 +1,4 @@
+//users.js module
 
 var express = require('express'),
     router = express.Router(),
