@@ -90,7 +90,9 @@ module.exports = function (app, config) {
         let query = User.find();
         query.sort(req.query.order)
         await query.exec().then(result => {
-                res.status(200).json(result);
+                logger.log('info', 'get all users = complete' );
+                res.status(201).json(result);
+
         })
     }));
 
@@ -100,7 +102,7 @@ module.exports = function (app, config) {
         logger.log('info', 'logging in user id = ' + id);
         await User.findById(req.body.id).then(result => {
                 logger.log('info', 'info for user id = ' + result);
-                res.status(200).json(result);
+                res.status(201).json(result);
         })
     }));
 
