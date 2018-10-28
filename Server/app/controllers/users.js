@@ -11,8 +11,7 @@ var express = require('express'),
 module.exports = function (app, config) {
     app.use('/api', router);
 
-    //API Calls below
-
+    //API calls below
     //Get All Users Async Request
     //Sample: http://localhost:5000/api/users/
     router.get('/users', asyncHandler(async (req, res) => {
