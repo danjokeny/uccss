@@ -15,8 +15,8 @@ export class Users {
 
   newUser() {
     this.user = {
-    firstName: "",
-    lastName: "",
+    fName: "",
+    lName: "",
     active: true,
     role: "user",
     email: "",
