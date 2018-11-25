@@ -1,14 +1,32 @@
-import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { User } from '../resources/data/user-object'
 
-@inject(Router)
+
+@inject(Router, User)
 export class Users {
-  constructor(router) {
-	this.router = router;
-          this.message = 'This is where we will display users';
+  constructor(router, Users) {
+    this.router = router;
+    this.users=users;
+    this.message = 'This is where we will display users';
+    this.showUserEditForm = false;
+
   }
 
-  logout(){
-	  this.router.navigate('home');
+  newUser() {
+    this.user = {
+    firstName: "",
+    lastName: "",
+    active: true,
+    role: "user",
+    email: "",
+    password: ""
+    }
+      this.showUserEditForm = true;
+    }
+    
+
+  logout() {
+    this.router.navigate('home');
   }
 }
