@@ -33,7 +33,7 @@ module.exports = function (app, config) {
     }));
 
     //create new user api Post request with json passed in raw body
-    //Sample: http://localhost:5000/api/createNew
+    //Sample: http://localhost:5000/api/users
     /*{
         "fname" : "Amy",    
         "lname" : "Vankauwenberg",    
@@ -41,7 +41,7 @@ module.exports = function (app, config) {
         "password" : "987654321",
         "role" : "admin"
     }*/
-    router.post('/createNew', asyncHandler(async (req, res) => {
+    router.post('/users', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating user Async Post');
         var user = new User(req.body);
         console.log(req.body);
@@ -52,7 +52,7 @@ module.exports = function (app, config) {
     }));
 
     //Update existing data row with json passed in raw body
-    //Sample:http://localhost:5000/api/update
+    //Sample:http://localhost:5000/api/users
     /*{ "active": false,
         "_id": "5bd080092c9c2a74ecf2ace2",
         "fname": "Danny",
@@ -63,7 +63,7 @@ module.exports = function (app, config) {
         "registerDate": "2018-10-24T14:22:01.128Z",
         "__v": 0
     }*/
-    router.put('/update', asyncHandler(async (req, res) => {
+    router.put('/users', asyncHandler(async (req, res) => {
         logger.log('info', 'Updating user');
         await User.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
             .then(result => {
@@ -72,8 +72,8 @@ module.exports = function (app, config) {
     }));
 
     //Delete existing data
-    //Sample:http://localhost:5000/api/Delete/5bd080092c9c2a74ecf2ace2
-    router.delete('/Delete/:id', asyncHandler(async (req, res) => {
+    //Sample:http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
+    router.delete('/users/:id', asyncHandler(async (req, res) => {
         logger.log('info', 'Deleting user id =  %s', req.params.id);
         await User.remove({ _id: req.params.id })
                 .then(result => {
