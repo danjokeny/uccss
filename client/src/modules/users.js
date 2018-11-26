@@ -4,8 +4,8 @@ import { User } from '../resources/data/user-object'
 
 
 @inject(Router, User)
-export class Users {
-  constructor(router, Users) {
+export class users {
+  constructor(router, users) {
     this.router = router;
     this.users=users;
     this.message = 'This is where we will display users';
@@ -23,10 +23,10 @@ export class Users {
     password: ""
     }
       this.showUserEditForm = true;
-    }
-    
+  }  
 
   logout() {
     this.router.navigate('home');
   }
+
 }
