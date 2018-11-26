@@ -7,7 +7,7 @@ import { User } from '../resources/data/user-object'
 export class users {
   constructor(router, users) {
     this.router = router;
-    this.users=users;
+    this.users = users;
     this.message = 'This is where we will display users';
     this.showUserEditForm = false;
 
@@ -15,18 +15,26 @@ export class users {
 
   newUser() {
     this.user = {
-    fName: "",
-    lName: "",
-    active: true,
-    role: "user",
-    email: "",
-    password: ""
+      fname: "",
+      lname: "",
+      active: true,
+      role: "user",
+      email: "",
+      password: ""
     }
-      this.showUserEditForm = true;
-  }  
-
-  logout() {
-    this.router.navigate('home');
+    this.showUserEditForm = true;
   }
 
+  async save() {
+    if (this.user && this.user.fname && this.user.lname
+      && this.user.email && this.user.password)
+      await this.users.saveUser(this.user);
+  }
+
+
+
 }
+    
+
+
+
