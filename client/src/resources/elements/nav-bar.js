@@ -5,6 +5,8 @@ export class NavBar {
     constructor(router) {
         this.authenticated = false;
         this.router = router;
+        this.email="";
+        this.password="";
     };
 
     login() {
