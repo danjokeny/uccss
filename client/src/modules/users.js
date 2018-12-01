@@ -30,6 +30,7 @@ export class users {
       await this.users.saveUser(this.user);
   };
 
+  //lifecycle method upon page load
   async activate(){
     await this.getUsers();
   };
