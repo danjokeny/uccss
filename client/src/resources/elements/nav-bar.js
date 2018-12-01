@@ -5,9 +5,18 @@ export class NavBar {
     constructor(router) {
         this.authenticated = false;
         this.router = router;
-        this.email="";
-        this.password="";
+        this.email = "";
+        this.password = "";
     };
+
+    //jQuery lifecycle method
+    attached() {
+        $('.navbar-nav a').on('click', function () {
+            $('.navbar-nav').find('li.active').removeClass('active');
+            $(this).parent('li').addClass('active');
+        });
+    };
+
 
     login() {
         console.log(this.email);

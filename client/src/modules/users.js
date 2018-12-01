@@ -8,10 +8,9 @@ export class users {
   constructor(router, users) {
     this.router = router;
     this.users = users;
-    this.message = 'This is where we will display users';
+    this.message = 'All Users, Roles, and Active Status';
     this.showUserEditForm = false;
-
-  }
+  };
 
   newUser() {
     this.user = {
@@ -21,20 +20,26 @@ export class users {
       role: "user",
       email: "",
       password: ""
-    }
+    };
     this.showUserEditForm = true;
-  }
+  };
 
   async save() {
     if (this.user && this.user.fname && this.user.lname
       && this.user.email && this.user.password)
       await this.users.saveUser(this.user);
-  }
+  };
 
+  async activate(){
+    await this.getUsers();
+  };
+  
+  async getUsers(){
+    await this.users.getUsers();
+  };
 
+};
 
-}
-    
 
 
 

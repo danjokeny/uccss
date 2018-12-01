@@ -6,9 +6,6 @@ export class Home {
   constructor(router) {
 	this.router = router;
           this.message = 'This is my home page';
-  }
+  };
 
-  login(){
-	  this.router.navigate('users');
-  }
-}
+};
