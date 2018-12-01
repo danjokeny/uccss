@@ -3,8 +3,14 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <table class="table table">
-                    <thead class="thead-dark">
+                    <thead class="thead">
                         <tr>
+                            <th colspan="1">
+                                <span click.trigger="newUser()"><i data-feather="plus"></i></span>
+                                <span click.trigger="getUsers()" style="margin-left:5px;"><i data-feather="refresh-cw"></i></span>
+                            </th>
+                        </tr>
+                        <tr class = "thead-light">
                             <th scope="col">First</th>
                             <th scope="col">Last</th>
                             <th scope="col">Role</th>

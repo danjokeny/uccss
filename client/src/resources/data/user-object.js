@@ -25,4 +25,10 @@ export class User {
         };
     };
 
+    async delete(user) {
+        if (user && user._id) {
+            await this.data.delete(this.USER_SERVICE + '/' + user._id)
+        };
+    };
+
 };
