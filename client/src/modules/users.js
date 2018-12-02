@@ -27,9 +27,9 @@ export class users {
   async save() {
     if (this.user && this.user.fname && this.user.lname
       && this.user.email && this.user.password)
-        await this.users.saveUser(this.user);
-        await this.getUsers();
-        this.back();
+      await this.users.saveUser(this.user);
+    await this.getUsers();
+    this.back();
   };
 
   back() {
@@ -41,6 +41,10 @@ export class users {
     this.openEditForm();
   };
 
+  openEditForm() {
+    this.showUserEditForm = true;
+    setTimeout(() => { $("#firstName").focus(); }, 500);
+  };
   async delete() {
     if (this.user) {
       await this.users.delete(this.user);
@@ -49,9 +53,9 @@ export class users {
     };
   };
 
-  openEditForm() {
-    this.showUserEditForm = true;
-    setTimeout(() => { $("#firstName").focus(); }, 500);
+  changeActive(user) {
+    this.user = user;
+    this.save();
   };
 
 

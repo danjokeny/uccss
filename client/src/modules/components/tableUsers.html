@@ -10,7 +10,7 @@
                                 <span click.trigger="getUsers()" style="margin-left:5px;"><i data-feather="refresh-cw"></i></span>
                             </th>
                         </tr>
-                        <tr class = "thead-light">
+                        <tr class="thead-light">
                             <th scope="col">First</th>
                             <th scope="col">Last</th>
                             <th scope="col">Role</th>
@@ -18,11 +18,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr repeat.for="user of users.usersArray" click.trigger="editUser(user)">
-                            <td>${user.fname}</td>
-                            <td>${user.lname}</td>
-                            <td>${user.role}</td>
-                            <td>${user.active}</td>
+                        <tr repeat.for="user of users.usersArray">
+                            <td click.trigger="editUser(user)">${user.fname}</td>
+                            <td click.trigger="editUser(user)">${user.lname}</td>
+                            <td click.trigger="editUser(user)">${user.role}</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" change.delegate="changeActive(user)" checked.bind="user.active"
+                                        type="checkbox" value="" id="defaultCheck1">
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
