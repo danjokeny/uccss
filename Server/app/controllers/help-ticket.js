@@ -11,7 +11,7 @@ var express = require('express'),
 module.exports = function (app, config) {
     app.use('/api', router);
 
-    //API calls below
+    //HelpTicket Routes
 
     /*create new helpTickets api Post request with json passed in raw body
     Sample: http://localhost:5000/api/helpTickets
@@ -104,6 +104,9 @@ module.exports = function (app, config) {
             })
     }));
 
+
+    //HelpTicketContent Routes
+
     /*create new HelpTicketContent  Post request with json passed in raw body
         Sample: http://localhost:5000/api/HelpTicketContent
         {
@@ -149,7 +152,7 @@ module.exports = function (app, config) {
     //Sample: http://localhost:5000/api/helpTicketContents/helpTicket/5c037760a7bb2fb12ca389b8
     router.get('/helpTicketContent/helpTicket', asyncHandler(async (req, res) => {
         let query = HelpTicketContent.find()
-  //      query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
+        query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
         
         //check the helpTicketId that matches the GET URL
         logger.log('info', 'Get all HelpTicketContent for helpticket = ' + req.query.helpTicketId);
@@ -178,6 +181,40 @@ module.exports = function (app, config) {
             console.log(result);
             res.status(200).json(result);
         })
+    }));
+
+    //Update existing helpticket row with json passed in raw body
+    //Sample:http://localhost:5000/api/HelpTicketContent/
+    /*    {
+        "file": {
+            "FileName": "Filename here",
+            "OriginalFileName": "original filename here"
+        },
+        "_id": "5c03ff189b566efae0378c1c",
+        "PersonID": "5c035307ef1abf258882cc37",
+        "Content": "help me with my christmas decorating please",
+        "helpTicketId": "5c037760a7bb2fb12ca389b8",
+        "DateCreated": "2018-12-02T15:49:44.209Z",
+        "__v": 1
+    }*/
+    router.put('/HelpTicketContent', asyncHandler(async (req, res) => {
+        logger.log('info', 'Updating HelpTicketContent');
+        await HelpTicketContent.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
+            .then(result => {
+                logger.log('info', 'Updated HelpTicketContent =' + result);
+                res.status(200).json(result);
+            })
+    }));
+
+    //Delete existing HelpTicketContent
+    //Sample:http://localhost:5000/api/HelpTicketContent/5c0377d0a7bb2fb12ca389bb
+    router.delete('/HelpTicketContent/:id', asyncHandler(async (req, res) => {
+        logger.log('info', 'Deleting HelpTicketContent =  %s', req.params.id);
+        await HelpTicketContent.remove({ _id: req.params.id })
+            .then(result => {
+                logger.log('info', 'Deleted HelpTicketContent = %s', req.params.id);
+                res.status(200).json(result);
+            })
     }));
 
 };
