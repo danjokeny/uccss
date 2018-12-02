@@ -6,7 +6,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     asyncHandler = require('express-async-handler'),
     HelpTicketContent = mongoose.model('HelpTicketContent');
-HelpTicket = mongoose.model('HelpTicket');
+    HelpTicket = mongoose.model('HelpTicket');
 
 module.exports = function (app, config) {
     app.use('/api', router);
@@ -91,6 +91,93 @@ module.exports = function (app, config) {
                 logger.log('info', 'Updated helpTicket =' + result);
                 res.status(200).json(result);
             })
+    }));
+
+    //Delete existing helpticket
+    //Sample:http://localhost:5000/api/helpTickets/5c0377d0a7bb2fb12ca389bb
+    router.delete('/helpTickets/:id', asyncHandler(async (req, res) => {
+        logger.log('info', 'Deleting helpTicket =  %s', req.params.id);
+        await HelpTicket.remove({ _id: req.params.id })
+            .then(result => {
+                logger.log('info', 'Deleted helpTicket = %s', req.params.id);
+                res.status(200).json(result);
+            })
+    }));
+
+    /*create new HelpTicketContent  Post request with json passed in raw body
+        Sample: http://localhost:5000/api/HelpTicketContent
+        {
+            "PersonID": "5c035307ef1abf258882cc37",
+            "Content":"need a new job too",
+            "helpTicketId": "5c037760a7bb2fb12ca389b8",
+            "file": {
+                "FileName": "Filename here",
+                "OriginalFileName": "original filename here"
+            }
+        }
+    */
+    router.post('/HelpTicketContent', asyncHandler(async (req, res) => {
+        logger.log('info', 'Creating helpTicket Async Post');
+        var helpticketcontent = new HelpTicketContent(req.body);
+        await helpticketcontent.save()
+            .then(result => {
+                logger.log('info', 'Created helpticketcontent = ' + result);
+                res.status(201).json(result);
+            })
+    }));
+
+    //Get All HelpTicketContent (check for Status parameter passed)
+    //Sort on attribute passed
+    //Sample: http://localhost:5000/api/HelpTicketContent/
+    router.get('/HelpTicketContent', asyncHandler(async (req, res) => {
+        logger.log('info', 'Get all HelpTicketContent');
+        let query = HelpTicketContent.find();
+        //Sort on ?order
+        query.sort(req.query.order)
+            //Join with user table to get names
+            .populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
+
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        });
+    }));
+
+
+
+    //Get HelpTicketContent for a specific help ticket
+    //Sample: http://localhost:5000/api/helpTicketContents/helpTicket/5c037760a7bb2fb12ca389b8
+    router.get('/helpTicketContent/helpTicket', asyncHandler(async (req, res) => {
+        let query = HelpTicketContent.find()
+  //      query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
+        
+        //check the helpTicketId that matches the GET URL
+        logger.log('info', 'Get all HelpTicketContent for helpticket = ' + req.query.helpTicketId);
+        if (req.query.helpTicketId) {
+            if (req.query.helpTicketId[0] == '-') {
+                query.where('helpTicketId').ne(req.query.helpTicketI.substring(1));
+            } else {
+                query.where('helpTicketId').eq(req.query.helpTicketId);
+            }
+        };
+
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
+    }));
+
+    //Get specific HelpTicketContent Request 
+    //Sample: http://localhost:5000/api/HelpTicketContent/5c04006a9b566efae0378c22
+    router.get('/HelpTicketContent/:id', asyncHandler(async (req, res) => {
+        logger.log('info', 'Get specific HelpTicketContent by id =  %s', req.params.id);
+        let query = HelpTicketContent.findById(req.params.id)
+        query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
+
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
     }));
 
 };
