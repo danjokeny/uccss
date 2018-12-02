@@ -3,7 +3,9 @@ var mongoose = require('mongoose');
 
 //Database Schema
 var Schema = mongoose.Schema;
-var rolesValid=['user', 'staff', 'admin']
+
+//Users
+var rolesValid=['user', 'staff', 'admin'];
 var UserSchema = new Schema({
   fname: { type: String },
   lname: { type: String },
@@ -13,8 +15,6 @@ var UserSchema = new Schema({
   active: { type: Boolean, default: true },
   registerDate: { type: Date, default: Date.now }
 });
-
-console.log('userschema = ' + UserSchema)
 
 //Database Connection
 module.exports =
