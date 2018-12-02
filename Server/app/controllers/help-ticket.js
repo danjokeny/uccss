@@ -6,12 +6,10 @@ var express = require('express'),
     mongoose = require('mongoose'),
     asyncHandler = require('express-async-handler'),
     HelpTicketContent = mongoose.model('HelpTicketContent');
-    HelpTicket = mongoose.model('HelpTicket');
+HelpTicket = mongoose.model('HelpTicket');
 
 module.exports = function (app, config) {
     app.use('/api', router);
-
-        logger.log('info', 'inside helpticket routes controller');
 
     //API calls below
 
@@ -24,14 +22,26 @@ module.exports = function (app, config) {
     "Status": "new"
     }
     */
-    router.post('/helpTickets', asyncHandler(async (req, res) => {
-        logger.log('info', 'Creating helpTicket Async Post');
-        var helpticket = new HelpTicket(req.body);
+        router.post('/helpTickets', asyncHandler(async (req, res) => {
+        logger.log('info', 'Creating helpTicket Async Post');
+        var helpticket = new HelpTicket(req.body);
         console.log(req.body);
-        await helpticket.save()
+        await helpticket.save()
             .then(result => {
                 res.status(201).json(result);
-            })
-    }));
+            })
+        }));
+
+    //Get All helpTickets Async Request
+    //Sample: http://localhost:5000/api/helpTickets/
+    router.get('/helpTickets', asyncHandler(async (req, res) => {
+        logger.log('info', 'Get all helpTickets Async Request');
+        let query = HelpTicket.find();
+        query.sort(req.query.order)
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
+    }));
 
 };
