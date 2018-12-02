@@ -25,23 +25,33 @@ module.exports = function (app, config) {
         router.post('/helpTickets', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticket = new HelpTicket(req.body);
-        console.log(req.body);
         await helpticket.save()
             .then(result => {
+                logger.log('info', 'Creating helpTicket = ' + result);
                 res.status(201).json(result);
             })
         }));
 
-    //Get All helpTickets Async Request
+    //Get All helpTickets (check for Status parameter passed)
     //Sample: http://localhost:5000/api/helpTickets/
     router.get('/helpTickets', asyncHandler(async (req, res) => {
-        logger.log('info', 'Get all helpTickets Async Request');
+        logger.log('info', 'Get all helpTickets');
         let query = HelpTicket.find();
         query.sort(req.query.order)
+
+        //check the Status that matches the GET URL
+        if(req.query.Status){
+            if(req.query.Status[0] == '-'){
+                 query.where('Status').ne(req.query.Status.substring(1));
+            } else {
+                query.where('Status').eq(req.query.Status);
+            }
+         };
+
         await query.exec().then(result => {
             console.log(result);
             res.status(200).json(result);
-        })
+        });
     }));
 
 };
