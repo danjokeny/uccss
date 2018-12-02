@@ -22,7 +22,7 @@ module.exports = function (app, config) {
     "Status": "new"
     }
     */
-        router.post('/helpTickets', asyncHandler(async (req, res) => {
+    router.post('/helpTickets', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticket = new HelpTicket(req.body);
         await helpticket.save()
@@ -30,7 +30,7 @@ module.exports = function (app, config) {
                 logger.log('info', 'Creating helpTicket = ' + result);
                 res.status(201).json(result);
             })
-        }));
+    }));
 
     //Get All helpTickets (check for Status parameter passed)
     //Sample: http://localhost:5000/api/helpTickets/
@@ -38,15 +38,18 @@ module.exports = function (app, config) {
         logger.log('info', 'Get all helpTickets');
         let query = HelpTicket.find();
         query.sort(req.query.order)
+            .populate({ path: 'PersonID', model: 'User', select: 'lname fname' })
+            .populate({ path: 'OwnerID', model: 'User', select: 'lname fname' });
+
 
         //check the Status that matches the GET URL
-        if(req.query.Status){
-            if(req.query.Status[0] == '-'){
-                 query.where('Status').ne(req.query.Status.substring(1));
+        if (req.query.Status) {
+            if (req.query.Status[0] == '-') {
+                query.where('Status').ne(req.query.Status.substring(1));
             } else {
                 query.where('Status').eq(req.query.Status);
             }
-         };
+        };
 
         await query.exec().then(result => {
             console.log(result);
