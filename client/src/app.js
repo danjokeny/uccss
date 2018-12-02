@@ -16,6 +16,11 @@ export class App {
         route: 'users',
         moduleId: './modules/users',
         name: 'Users'
+      },
+      {
+        route: 'helpTickets',
+        moduleId: './modules/helpTickets',
+        name: 'Help Tickets'
       }
     ]);
   }

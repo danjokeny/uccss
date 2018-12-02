@@ -9,14 +9,13 @@ export class NavBar {
         this.password = "";
     };
 
-    //jQuery lifecycle method
+    //jQuery lifecycle method for highlighting selected menu option
     attached() {
         $('.navbar-nav a').on('click', function () {
             $('.navbar-nav').find('li.active').removeClass('active');
             $(this).parent('li').addClass('active');
         });
     };
-
 
     login() {
         console.log(this.email);
