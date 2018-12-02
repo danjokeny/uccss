@@ -17,7 +17,7 @@ export class helptickets {
         await this.helpTickets.getHelpTickets(this.userObj);
     };
 
-    /*
+
     newHelpTicket() {
         this.helpTicket = {
             title: "",
@@ -31,7 +31,7 @@ export class helptickets {
         };
         this.showEditForm();
     };
-
+    /*
     async editHelpTicket(helpTicket) {
         this.helpTicket = helpTicket;
         this.helpTicketContent = {
@@ -53,4 +53,11 @@ export class helptickets {
             this.back();
         };
     };*/
+
+    
+  //lifecycle method for loading icon
+  attached() {
+    feather.replace()
+  };
+
 };
