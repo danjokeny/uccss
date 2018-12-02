@@ -38,8 +38,8 @@ module.exports = function (app, config) {
         logger.log('info', 'Get all helpTickets');
         let query = HelpTicket.find();
         query.sort(req.query.order)
-            .populate({ path: 'PersonID', model: 'User', select: 'lname fname' })
-            .populate({ path: 'OwnerID', model: 'User', select: 'lname fname' });
+            .populate({ path: 'PersonID', model: 'User', select: 'lname fname ' })
+            .populate({ path: 'OwnerID', model: 'User', select: 'lname fname ' });
 
 
         //check the Status that matches the GET URL
@@ -55,6 +55,20 @@ module.exports = function (app, config) {
             console.log(result);
             res.status(200).json(result);
         });
+    }));
+
+    //Get specific helpTickets Request 
+    //Sample: http://localhost:5000/api/helpTickets/5c037760a7bb2fb12ca389b8
+    router.get('/helpTickets/:id', asyncHandler(async (req, res) => {
+        logger.log('info', 'Get specific helpTickets by id =  %s', req.params.id);
+        let query = HelpTicket.findById(req.params.id)
+        query.sort(req.query.order)
+            .populate({ path: 'PersonID', model: 'User', select: 'lname fname ' })
+            .populate({ path: 'OwnerID', model: 'User', select: 'lname fname ' });
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
     }));
 
 };
