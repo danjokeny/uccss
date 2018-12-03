@@ -12,6 +12,7 @@ var express = require('express'),
 var requireLogin = passport.authenticate('local', { session: false });
 var requireAuth = passport.authenticate('jwt', { session: false });
 
+
 module.exports = function (app, config) {
     app.use('/api', router);
 
