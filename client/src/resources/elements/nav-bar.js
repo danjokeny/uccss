@@ -20,6 +20,8 @@ export class NavBar {
         });
     };
 
+    //authenticate and save token is local object as well as 
+    //add user object from session object, and set isAuthenticated to true
     login() {
         return this.auth.login(this.email, this.password)
             .then(response => {
@@ -37,6 +39,7 @@ export class NavBar {
 
     };
 
+    //remove user object from session object, and set isAuthenticated to false
     logout() {
         if (this.userObj) this.auth.logout(this.userObj.email);
         sessionStorage.removeItem('user');
