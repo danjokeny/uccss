@@ -28,6 +28,7 @@ export class User {
         } else {
             this.usersArray = [];
         };
+        console.log('get all users complete')
     };
 
     async delete(user) {

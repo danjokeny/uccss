@@ -18,12 +18,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr click.trigger="editHelpTicket(helpTicket)" repeat.for="helpTicket of helpTickets.helpTicketsArray">
-                            <td>${helpTicket.Title}</td>
-                            <td>${helpTicket.Status}</td>
-                            <td>${helpTicket.PersonID.fname} ${helpTicket.PersonID.lname} </td>
-                            <td>${helpTicket.OwnerID.fname} ${helpTicket.OwnerID.lname} </td>
-                            </tr>
+                        <tr repeat.for="helpticket of helptickets.helpticketsArray">
+                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.Title}</td>
+                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.Status}</td>
+                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.PersonID.fname}
+                                ${helpticket.PersonID.lname} </td>
+                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.OwnerID.fname}
+                                ${helpticket.OwnerID.lname} </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
