@@ -9,7 +9,7 @@ export class helptickets {
         this.router = router;
         this.helpTickets = helpTickets;
         this.message = 'All help tickets page';
-        this.showHelpTicketEditForm  = false;
+        //this.showHelpTicketEditForm  = false;
         this.userObj = JSON.parse(sessionStorage.getItem('userObj'));
     };
 
@@ -20,12 +20,12 @@ export class helptickets {
     newHelpTicket() {
         this.helpTicket = {
             title: "",
-            personId: "p1p1p1p1p1p1p1p1p1p1p1p1",
+            personId: this.userObj._id,
             ownerId: "o2o2o2o2o2o2o2o2o2o2o2o2o2",
             status: 'new'
         };
         this.helpTicketContent = {
-            personId: "p1p1p1p1p1p1p1p1p1p1p1p1",
+            personId: this.userObj._id,
             content: ""
         };
         this.showEditForm();
@@ -40,7 +40,7 @@ export class helptickets {
         this.showHelpTicketEditForm = false;
       };
 
-    /*
+
     async editHelpTicket(helpTicket) {
         this.helpTicket = helpTicket;
         this.helpTicketContent = {
@@ -51,7 +51,10 @@ export class helptickets {
         this.showEditForm();
     };
 
-    async save() {
+    async save(helpTicket) {
+        console.log('trying to insert save')
+        console.log('this.helpTicket =' + this.helpTicket)
+        console.log('this.helpTicket.title =' + this.helpTicket.title)
         if (this.helpTicket && this.helpTicket.title && this.helpTicketContent && this.helpTicketContent.content) {
             if (this.userObj.role !== 'user') {
                 this.helpTicket.ownerId = this.userObj._id;
@@ -61,7 +64,7 @@ export class helptickets {
             await this.getHelpTickets();
             this.back();
         };
-    };*/
+    };
 
 
   //lifecycle method for loading icon
