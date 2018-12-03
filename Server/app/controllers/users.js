@@ -5,8 +5,12 @@ var express = require('express'),
     logger = require('../../config/logger'),
     mongoose = require('mongoose'),
     asyncHandler = require('express-async-handler'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    passportService = require('../../config/passport'),
+    passport = require('passport');
 
+var requireLogin = passport.authenticate('local', { session: false });
+var requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app, config) {
     app.use('/api', router);
@@ -14,23 +18,23 @@ module.exports = function (app, config) {
     //API calls below
     //Get All Users Async Request
     //Sample: http://localhost:5000/api/users/
-    router.get('/users', asyncHandler(async (req, res) => {
-        logger.log('info', 'Get all users Async Request');
-        let query = User.find();
-        query.sort(req.query.order)
-        await query.exec().then(result => {
-                res.status(200).json(result);
-        })
-    }));
-    
+    router.get('/users', asyncHandler(async (req, res) => {
+        logger.log('info', 'Get all users Async Request');
+        let query = User.find();
+        query.sort(req.query.order)
+        await query.exec().then(result => {
+            res.status(200).json(result);
+        })
+    }));
+
     //Get specific User id Request 
     //Sample: http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
     router.get('/users/:id', asyncHandler(async (req, res) => {
-        logger.log('info', 'Get specific user by id =  %s', req.params.id);
-        await User.findById(req.params.id).then(result => {
-                res.status(200).json(result);
-        })
-    }));
+        logger.log('info', 'Get specific user by id =  %s', req.params.id);
+        await User.findById(req.params.id).then(result => {
+            res.status(200).json(result);
+        })
+    }));
 
     //create new user api Post request with json passed in raw body
     //Sample: http://localhost:5000/api/users
@@ -42,13 +46,13 @@ module.exports = function (app, config) {
         "role" : "admin"
     }*/
     router.post('/users', asyncHandler(async (req, res) => {
-        logger.log('info', 'Creating user Async Post');
-        var user = new User(req.body);
-        console.log(req.body);
-        await user.save()
-                .then(result => {
-                        res.status(201).json(result);
-        })
+    logger.log('info', 'Creating user Async Post');
+    var user = new User(req.body);
+    console.log(req.body);
+    await user.save()
+        .then(result => {
+            res.status(201).json(result);
+        })
     }));
 
     //Update existing data row with json passed in raw body
@@ -74,47 +78,41 @@ module.exports = function (app, config) {
     //Delete existing data
     //Sample:http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
     router.delete('/users/:id', asyncHandler(async (req, res) => {
-        logger.log('info', 'Deleting user id =  %s', req.params.id);
-        await User.remove({ _id: req.params.id })
-                .then(result => {
-                        res.status(200).json(result);
-        })
+    logger.log('info', 'Deleting user id =  %s', req.params.id);
+    await User.remove({ _id: req.params.id })
+        .then(result => {
+            res.status(200).json(result);
+        })
     }));
 
-    //HTML calls below 
+    //Route to update password 
+    //sample: http://localhost:5000/api/users/password/5c0499e21de9777271803cf1
+    /*{
+        "password": "GWTW1939"
 
-    //get all users from html index page link
-    router.post('/users/all', asyncHandler(async (req, res) => {
-        logger.log('info', 'post request to retrieve all users from db in html Request');
-        let query = User.find();
-        query.sort(req.query.order)
-        await query.exec().then(result => {
-                logger.log('info', 'get all users = complete' );
-                res.status(201).json(result);
+    }*/
+    router.put('/users/password/:userId', requireAuth, function (req, res, next) {
+        logger.log('Update user ' + req.params.userId, 'verbose');
+        User.findById(req.params.userId)
+            .exec()
+            .then(function (user) {
+                if (req.body.password !== undefined) {
+                    user.password = req.body.password;
+                }
+                user.save()
+                    .then(function (user) {
+                        res.status(200).json(user);
+                    })
+                    .catch(function (err) {
+                        return next(err);
+                    });
+            })
+            .catch(function (err) {
+                return next(err);
+            });
+    });
 
-        })
-    }));
+    router.route('/users/login').post(requireLogin, login);
 
-    //Login/retrieve existing user id from html index page link
-    router.post('/login', asyncHandler(async (req, res) => {
-        var id = req.body.id
-        logger.log('info', 'logging in user id = ' + id);
-        await User.findById(req.body.id).then(result => {
-                logger.log('info', 'info for user id = ' + result);
-                res.status(201).json(result);
-        })
-    }));
-
-    //create new userid from html index page link
-    router.post('/create', asyncHandler(async (req, res) => {
-        var user = new User(req.body);
-        var email = req.body.email
-        logger.log('info', 'Creating user from html for email ' + email);
-        logger.log('info', 'insert row ' + user);
-        await user.save()
-                .then(result => {
-                        res.status(201).json(result);
-        })
-    }));
 
 };
