@@ -12,6 +12,7 @@ export class users {
     this.showUserEditForm = false;
   };
 
+  //initialize new user form for input
   newUser() {
     this.user = {
       fname: "",
