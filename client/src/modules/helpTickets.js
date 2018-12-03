@@ -18,12 +18,14 @@ export class helptickets {
     };                    
     
     newHelpTicket() {
+        console.log('loading a new editForm')
         this.helpticket = {
-            Title: "Title",
-            PersonID: this.userObj._id,
-            OwnerID: "o2o2o2o2o2o2o2o2o2o2o2o2o2",
-            Status: 'new'
+            Title: "What is the title here?",
+            PersonName: this.userObj.fname + this.userObj.lname,
+            OwnerName: "who will own this?",
+            Status: ''
         };
+        console.log(' this.helpticket =' +  this.helpticket.Title)
        /* this.helpTicketContent = {
             personId: this.userObj._id,
             content: ""
@@ -39,13 +41,16 @@ export class helptickets {
     back() {
         this.showHelpTicketEditForm = false;
       };
-
+      
 
     async editHelpTicket(helpTicket) {
         console.log('trying to edit a ticket row')
-        console.log('helpTicket =' + helpTicket)
-        console.log('this.helpticket =' + this.helpticket)
-        this.helpTicket = helpTicket;
+        console.log('this.helpticket.OwnerID =' +  this.helpticket.OwnerID)
+        console.log('this.helpticket.PersonId =' + this.helpticket.PersonID)
+        console.log('this.helpticket.Title =' + this.helpticket.Title)
+        console.log('this.helpticket.Status =' + this.helpticket.Status)
+        //this.helpTicket = helpTicket;
+        
 /*        this.helpTicketContent = {
             personId: this.userObj._id,
             content: ""
@@ -64,7 +69,8 @@ export class helptickets {
             if (this.userObj.role !== 'user') {
                 this.helpticket.ownerId = this.userObj._id;
             };
-            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
+            let helpTicket = { helpTicket: this.helpticket };
+//            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
             await this.helpTickets.saveHelpTicket(this.helpticket);
             await this.getHelpTickets();
             this.back();
