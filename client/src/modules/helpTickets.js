@@ -9,25 +9,25 @@ export class helptickets {
         this.router = router;
         this.helpTickets = helpTickets;
         this.message = 'All help tickets page';
-        //this.showHelpTicketEditForm  = false;
+        this.showHelpTicketEditForm  = false;
         this.userObj = JSON.parse(sessionStorage.getItem('userObj'));
     };
 
     async activate() {
         await this.helpTickets.getHelpTickets(this.userObj);
-    };                         
-
+    };                    
+    
     newHelpTicket() {
-        this.helpTicket = {
-            title: "",
-            personId: this.userObj._id,
-            ownerId: "o2o2o2o2o2o2o2o2o2o2o2o2o2",
-            status: 'new'
+        this.helpticket = {
+            Title: "Title",
+            PersonID: this.userObj._id,
+            OwnerID: "o2o2o2o2o2o2o2o2o2o2o2o2o2",
+            Status: 'new'
         };
-        this.helpTicketContent = {
+       /* this.helpTicketContent = {
             personId: this.userObj._id,
             content: ""
-        };
+        };*/
         this.showEditForm();
     };
 
@@ -42,30 +42,34 @@ export class helptickets {
 
 
     async editHelpTicket(helpTicket) {
+        console.log('trying to edit a ticket row')
+        console.log('helpTicket =' + helpTicket)
+        console.log('this.helpticket =' + this.helpticket)
         this.helpTicket = helpTicket;
-        this.helpTicketContent = {
+/*        this.helpTicketContent = {
             personId: this.userObj._id,
             content: ""
         };
-        await this.helpTickets.getHelpTicketsContents(helpTicket._id)
+        await this.helpTickets.getHelpTicketsContents(helpticket._id)*/
         this.showEditForm();
     };
 
-    async save(helpTicket) {
+    async save() {
         console.log('trying to insert save')
-        console.log('this.helpTicket =' + this.helpTicket)
-        console.log('this.helpTicket.title =' + this.helpTicket.title)
-        if (this.helpTicket && this.helpTicket.title && this.helpTicketContent && this.helpTicketContent.content) {
+        console.log('this.helpticket =' + this.helpticket)
+        console.log('this.helpticket.title =' + this.helpticket.title)
+        if (this.helpticket && this.helpticket.title 
+            //&& this.helpTicketContent && this.helpTicketContent.content
+            ) {
             if (this.userObj.role !== 'user') {
-                this.helpTicket.ownerId = this.userObj._id;
+                this.helpticket.ownerId = this.userObj._id;
             };
-            let helpTicket = { helpTicket: this.helpTicket, content: this.helpTicketContent };
-            await this.helpTickets.saveHelpTicket(helpTicket);
+            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
+            await this.helpTickets.saveHelpTicket(this.helpticket);
             await this.getHelpTickets();
             this.back();
         };
     };
-
 
   //lifecycle method for loading icon
   attached() {

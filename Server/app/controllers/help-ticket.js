@@ -25,7 +25,7 @@ module.exports = function (app, config) {
     "PersonID": "5bd080482c9c2a74ecf2ace3",
     "OwnerID": "5c02f00eef1abf258882cc24",
     "Status": "new"
-    }
+    }*/
     router.post('/helpTickets', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticket = new HelpTicket(req.body);
@@ -34,8 +34,8 @@ module.exports = function (app, config) {
                 logger.log('info', 'Creating helpTicket = ' + result);
                 res.status(201).json(result);
             })
-    }));*/
-
+    }));
+    /*comment out to test if post works
     router.post('/helpTickets',requireAuth,  asyncHandler(async (req, res) => {
         logger.log('info', 'Creating HelpTicket & HelpTicektContent');
         var helpTicket = new HelpTicket(req.body.helpTicket);
@@ -48,7 +48,7 @@ module.exports = function (app, config) {
                         res.status(201).json(result);
                     })
             })
-    }));
+    }));*/
 
     //Get All helpTickets (check for Status parameter passed)
     //Sort on attribute passed
@@ -157,7 +157,8 @@ module.exports = function (app, config) {
             }
         }
     */
-    router.post('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
+    //router.post('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
+    router.post('/HelpTicketContent',  asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticketcontent = new HelpTicketContent(req.body);
         await helpticketcontent.save()
