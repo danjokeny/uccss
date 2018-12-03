@@ -6,7 +6,9 @@ var express = require('express'),
     mongoose = require('mongoose'),
     asyncHandler = require('express-async-handler'),
     HelpTicketContent = mongoose.model('HelpTicketContent'),
-    HelpTicket = mongoose.model('HelpTicket');
+    HelpTicket = mongoose.model('HelpTicket'),
+    passportService = require('../../config/passport'),
+    passport = require('passport');
 
 var requireAuth = passport.authenticate('jwt', { session: false });
 
