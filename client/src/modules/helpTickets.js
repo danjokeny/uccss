@@ -32,7 +32,6 @@ export class helptickets {
     };
 
     showEditForm() {
-        //this.helpTickets = helpTickets;
         this.showHelpTicketEditForm  = true;
         //setTimeout(() => { $("#Title").focus(); }, 500);
     };
