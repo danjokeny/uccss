@@ -18,6 +18,8 @@ export class DataServices {
                 })
                 .withInterceptor({
                     request(request) {
+                        var authHeader = 'Bearer ' + localStorage.getItem('aurelia_token')
+                        request.headers.append('Authorization', authHeader);
                         console.log('Requesting ${request.method} ${request.url}');
                         return request;
                     },
@@ -73,18 +75,18 @@ export class DataServices {
     }
 
     delete(url) {
-		return this.httpClient
-			.fetch(url, {
-				method: 'delete'
-			})
-			.then(response => response.json())
-			.then(object => {
-				return object;
-			})
-			.catch(error => {
-				return error ;
-			});
-	}
+        return this.httpClient
+            .fetch(url, {
+                method: 'delete'
+            })
+            .then(response => response.json())
+            .then(object => {
+                return object;
+            })
+            .catch(error => {
+                return error;
+            });
+    }
 
 
 }
