@@ -18,7 +18,7 @@ module.exports = function (app, config) {
     //API calls below
     //Get All Users Async Request
     //Sample: http://localhost:5000/api/users/
-    router.get('/users', asyncHandler(async (req, res) => {
+    router.get('/users', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Get all users Async Request');
         let query = User.find();
         query.sort(req.query.order)
@@ -29,7 +29,7 @@ module.exports = function (app, config) {
 
     //Get specific User id Request 
     //Sample: http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
-    router.get('/users/:id', asyncHandler(async (req, res) => {
+    router.get('/users/:id',  requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Get specific user by id =  %s', req.params.id);
         await User.findById(req.params.id).then(result => {
             res.status(200).json(result);
@@ -45,7 +45,7 @@ module.exports = function (app, config) {
         "password" : "987654321",
         "role" : "admin"
     }*/
-    router.post('/users', asyncHandler(async (req, res) => {
+    router.post('/users', requireAuth, asyncHandler(async (req, res) => {
     logger.log('info', 'Creating user Async Post');
     var user = new User(req.body);
     console.log(req.body);
@@ -67,7 +67,7 @@ module.exports = function (app, config) {
         "registerDate": "2018-10-24T14:22:01.128Z",
         "__v": 0
     }*/
-    router.put('/users', asyncHandler(async (req, res) => {
+    router.put('/users', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Updating user');
         await User.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
             .then(result => {
@@ -77,7 +77,7 @@ module.exports = function (app, config) {
 
     //Delete existing data
     //Sample:http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
-    router.delete('/users/:id', asyncHandler(async (req, res) => {
+    router.delete('/users/:id', requireAuth, asyncHandler(async (req, res) => {
     logger.log('info', 'Deleting user id =  %s', req.params.id);
     await User.remove({ _id: req.params.id })
         .then(result => {
