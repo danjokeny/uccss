@@ -44,12 +44,12 @@ export class NavBar {
         if (this.userObj) this.auth.logout(this.userObj.email);
         sessionStorage.removeItem('user');
         this.isAuthenticated = this.auth.isAuthenticated();
-        this.auth.logout();  
+        this.auth.logout();
     };
 
     //bind lifecycle method to initialize the isAuthenticated
     bind() {
         this.isAuthenticated = this.auth.isAuthenticated();
     }
-    
+
 };

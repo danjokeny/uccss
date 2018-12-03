@@ -1,11 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">HelpMe!</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
+        <a class="navbar-brand" href="#">HelpMeWebsite!</a>
         <div class="collapse navbar-collapse" id="navbarNav" show.bind="!isAuthenticated">
             <form class="form-inline">
                 <div class="form-group mb-2">
@@ -21,12 +16,14 @@
                     ${loginError}
                 </span>
             </form>
-            <ul show.bind="isAuthenticated" class="navbar-nav">
+        </div>
+        <div>
+            <ul class="navbar-nav" show.bind="isAuthenticated">
                 <li class="nav-item active">
                     <a class="nav-link" href="#Home">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#Users">Users</a>
+                    <a class="nav-link"  href="#Users">Users</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#HelpTickets">Help Tickets</a>

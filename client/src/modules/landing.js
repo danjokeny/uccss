@@ -8,4 +8,5 @@ export class Landing {
         this.router = router;
         this.message = 'This is my Landing page';
     };
+
 };
