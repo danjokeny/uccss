@@ -8,29 +8,39 @@ export class helptickets {
     constructor(router, helpTickets) {
         this.router = router;
         this.helpTickets = helpTickets;
-        this.message = 'All help tickets';
-        this.showHelpTicketEditForm = false;
+        this.message = 'All help tickets page';
+        this.showHelpTicketEditForm  = false;
         this.userObj = JSON.parse(sessionStorage.getItem('userObj'));
     };
 
     async activate() {
         await this.helpTickets.getHelpTickets(this.userObj);
-    };
-
+    };                         
 
     newHelpTicket() {
         this.helpTicket = {
             title: "",
-            personId: this.userObj._id,
-            ownerId: "a1a1a1a1a1a1a1a1a1a1a1a1",
+            personId: "p1p1p1p1p1p1p1p1p1p1p1p1",
+            ownerId: "o2o2o2o2o2o2o2o2o2o2o2o2o2",
             status: 'new'
         };
         this.helpTicketContent = {
-            personId: this.userObj._id,
+            personId: "p1p1p1p1p1p1p1p1p1p1p1p1",
             content: ""
         };
         this.showEditForm();
     };
+
+    showEditForm() {
+        //this.helpTickets = helpTickets;
+        this.showHelpTicketEditForm  = true;
+        //setTimeout(() => { $("#Title").focus(); }, 500);
+    };
+
+    back() {
+        this.showHelpTicketEditForm = false;
+      };
+
     /*
     async editHelpTicket(helpTicket) {
         this.helpTicket = helpTicket;
@@ -54,7 +64,7 @@ export class helptickets {
         };
     };*/
 
-    
+
   //lifecycle method for loading icon
   attached() {
     feather.replace()

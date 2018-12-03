@@ -45,6 +45,7 @@ export class users {
     this.showUserEditForm = true;
     setTimeout(() => { $("#firstName").focus(); }, 500);
   };
+  
   async delete() {
     if (this.user) {
       await this.users.delete(this.user);
