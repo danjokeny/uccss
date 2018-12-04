@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-8">
-                <table class="table table-borderless">
+                <table class="table table-bordered">
                     <thead class="thead">
                         <tr>
                             <th colspan="1">
@@ -18,12 +18,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr repeat.for="helpticket of helptickets.helpticketsArray">
-                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.Title}</td>
-                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.Status}</td>
-                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.PersonID.fname}
+                        <tr click.trigger="editHelpTicket(helpticket)" repeat.for="helpticket of helptickets.helpticketsArray">
+                            <td >${helpticket.Title}</td>
+                            <td >${helpticket.Status}</td>
+                            <td >${helpticket.PersonID.fname}
                                 ${helpticket.PersonID.lname} </td>
-                            <td click.trigger="editHelpTicket(helpticket)">${helpticket.OwnerID.fname}
+                            <td >${helpticket.OwnerID.fname}
                                 ${helpticket.OwnerID.lname} </td>
                         </tr>
                     </tbody>

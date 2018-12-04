@@ -19,19 +19,25 @@ export class helptickets {
     
     newHelpTicket() {
         console.log('loading a new editForm')
-        this.helpticket = {
-            title: "What is the title here?",
-            personname: this.userObj.fname + this.userObj.lname,
-            ownername: "who will own this?",
-            status: ''
+        this.helpticket  = {
+            Title: "Summarize Help Issue here",
+            PersonID: this.userObj._id,           
+            OwnerID: "oooooooo111111ooooo",           
+            Status: 'new'
         };
-        console.log(' this.helpticket =' +  this.helpticket.title)
+
+        console.log(' this.helpticket Title=' +  this.helpticket .Title)
+        console.log(' this.helpticket status=' +  this.helpticket .Status)
+        console.log(' this.helpticket person=' +  this.helpticket .PersonID)
+        console.log(' this.helpticket owner=' +  this.helpticket .OwnerID)
+
        /* this.helpTicketContent = {
             personId: this.userObj._id,
             content: ""
         };*/
         this.showEditForm();
     };
+
 
     showEditForm() {
         this.showHelpTicketEditForm  = true;
@@ -45,10 +51,6 @@ export class helptickets {
 
     async editHelpTicket(helpticket) {
         console.log('trying to edit a ticket row')
-      //  console.log('this.helpticket.OwnerName =' +  this.helpTickets.helpticket.OwnerName)
-       // console.log('this.helpticket.PersonName =' + this.helpticket.PersonName)
-       // console.log('this.helpticket.Title =' + this.helpticket.Title)
-       // console.log('this.helpticket.Status =' + this.helpticket.Status)
         this.helpticket = helpticket;    
 /*        this.helpTicketContent = {
             personId: this.userObj._id,
@@ -59,10 +61,12 @@ export class helptickets {
     };
 
     async save() {
-        console.log('trying to insert save')
+        console.log('trying to save')
         console.log('this.helpticket =' + this.helpticket)
-        console.log('this.helpticket.title =' + this.helpticket.title)
-        if (this.helpticket && this.helpticket.title 
+        console.log('this.helpticket.title =' + this.helpticket.Status)
+
+
+        if (this.helpticket && this.helpticket.Status 
             //&& this.helpTicketContent && this.helpTicketContent.content
             ) {
             if (this.userObj.role !== 'user') {
@@ -74,6 +78,7 @@ export class helptickets {
             await this.getHelpTickets();
             this.back();
         };
+        console.log('end of save')
     };
 
   //lifecycle method for loading icon
