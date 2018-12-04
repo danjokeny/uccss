@@ -21,7 +21,7 @@ export class helptickets {
         console.log('loading a new editForm')
         this.helpticket  = {
             Title: "Summarize Help Issue here",
-            PersonID: this.userObj._id,           
+            PersonID: this.userObj,           
             OwnerID: "oooooooo111111ooooo",           
             Status: 'new'
         };
