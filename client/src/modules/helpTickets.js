@@ -41,7 +41,7 @@ export class helptickets {
 
     showEditForm() {
         this.showHelpTicketEditForm  = true;
-        //setTimeout(() => { $("#Title").focus(); }, 500);
+        setTimeout(() => { $("#Title").focus(); }, 500);
     };
 
     back() {
