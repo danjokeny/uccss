@@ -13,6 +13,7 @@ export class helptickets {
         this.userObj = JSON.parse(sessionStorage.getItem('userObj'));
     };
 
+    //get help tickets upon loading the page
     async activate() {
         await this.helptickets.getHelpTickets(this.userObj);
     };                    
@@ -62,20 +63,23 @@ export class helptickets {
 
     async save() {
         console.log('trying to save')
-        console.log('this.helpticket =' + this.helpticket)
-        console.log('this.helpticket.title =' + this.helpticket.Status)
-
+        console.log(' this.helpticket Title=' +  this.helpticket .Title)
+        console.log(' this.helpticket status=' +  this.helpticket .Status)
+        console.log(' this.helpticket person=' +  this.helpticket .PersonID)
+        console.log(' this.helpticket owner=' +  this.helpticket .OwnerID)
 
         if (this.helpticket && this.helpticket.Title 
             //&& this.helpTicketContent && this.helpTicketContent.content
             ) {
             if (this.userObj.role !== 'user') {
+                console.log('set owner id')
                 this.helpticket.ownerId = this.userObj._id;
             };
             let helpTicket =   this.helpticket ;
 //            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
+                                   
             await this.helptickets.saveHelpTicket(this.helpticket);
-            await this.helptickets.getHelpTickets();
+            await this.helptickets.getHelpTickets(this.userObj);
             this.back();
         };
         console.log('end of save')
