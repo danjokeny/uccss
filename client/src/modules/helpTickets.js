@@ -66,7 +66,7 @@ export class helptickets {
         console.log('this.helpticket.title =' + this.helpticket.Status)
 
 
-        if (this.helpticket && this.helpticket.Status 
+        if (this.helpticket && this.helpticket.Title 
             //&& this.helpTicketContent && this.helpTicketContent.content
             ) {
             if (this.userObj.role !== 'user') {
@@ -74,7 +74,7 @@ export class helptickets {
             };
             let helpTicket =   this.helpticket ;
 //            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
-            await this.helptickets.saveHelpTicket(this.helpticket);
+            await this.saveHelpTicket(this.helpticket);
             await this.getHelpTickets();
             this.back();
         };
