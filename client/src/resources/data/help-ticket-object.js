@@ -29,13 +29,13 @@ export class Helpticket {
     async saveHelpticket(helpticket) {
         console.log("inside the help ticket object.js file")
         let serverResponse;
-        if (helptickets) {
-            if (helptickets._id) {
+        if (helpticket) {
+            if (helpticket._id) {
                 console.log('put update')
-                serverResponse = await this.data.put(helptickets, this.HELP_TICKET_SERVICE);
+                serverResponse = await this.data.put(helpticket, this.HELP_TICKET_SERVICE);
             } else {
                 console.log('post insert')
-                serverResponse = await this.data.post(helptickets, this.HELP_TICKET_SERVICE);
+                serverResponse = await this.data.post(helpticket, this.HELP_TICKET_SERVICE);
             };
             return serverResponse;
         };

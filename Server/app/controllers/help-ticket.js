@@ -7,7 +7,7 @@ var express = require('express'),
     asyncHandler = require('express-async-handler'),
     HelpTicketContent = mongoose.model('HelpTicketContent'),
     HelpTicket = mongoose.model('HelpTicket'),
-    passportService = require('../../config/passport'),
+    //passportService = require('../../config/passport'),
     passport = require('passport');
 
 var requireAuth = passport.authenticate('jwt', { session: false });
@@ -26,7 +26,7 @@ module.exports = function (app, config) {
     "OwnerID": "5c02f00eef1abf258882cc24",
     "Status": "new"
     }*/
-    router.post('/helpTickets', asyncHandler(async (req, res) => {
+    router.post('/helpTickets',  asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticket = new HelpTicket(req.body);
         await helpticket.save()
@@ -53,7 +53,7 @@ module.exports = function (app, config) {
     //Get All helpTickets (check for Status parameter passed)
     //Sort on attribute passed
     //Sample: http://localhost:5000/api/helpTickets/
-    router.get('/helpTickets',requireAuth,  asyncHandler(async (req, res) => {
+    router.get('/helpTickets',  asyncHandler(async (req, res) => {
         logger.log('info', 'Get all helpTickets');
         let query = HelpTicket.find();
         //Sort on ?order
@@ -102,16 +102,21 @@ module.exports = function (app, config) {
     "OwnerID":  "5c02f00eef1abf258882cc24",
     "Status": "new",
     "DateCreated": "2018-12-02T06:10:11.768Z"
-    }
-    router.put('/helpTickets', asyncHandler(async (req, res) => {
-        logger.log('info', 'Updating helpTickets');
+    }*/
+    router.put('/helpTickets',  asyncHandler(async (req, res) => {
+        logger.log('info', 'Updating helpTicket');
+        logger.log('info', 'Update request =' + req);
+        logger.log('info', 'id to update =' + req.body._id);
+        logger.log('info', 'status to update =' + req.body.Status);
+        
         await HelpTicket.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
             .then(result => {
                 logger.log('info', 'Updated helpTicket =' + result);
                 res.status(200).json(result);
             })
-    }));*/
+    }));
 
+    /*
     router.put('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Updating HelpTicket & HekpTicketConent');
         console.log(req.body)
@@ -128,7 +133,7 @@ module.exports = function (app, config) {
                     res.status(200).json(result);
                 }
             })
-    }));
+    }));*/
 
 
     //Delete existing helpticket

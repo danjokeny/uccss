@@ -8,85 +8,84 @@ export class helptickets {
         this.router = router;
         this.helptickets = helptickets;
         this.message = 'All help tickets page';
-        this.showHelpTicketEditForm  = false;
+        this.showHelpTicketEditForm = false;
         this.userObj = JSON.parse(sessionStorage.getItem('userObj'));
     };
 
     //get help tickets upon loading the page
     async activate() {
         await this.helptickets.getHelpTickets(this.userObj);
-    };                    
-    
+    };
+
+    //pre-populate form for adding a new help ticket
     newHelpTicket() {
         console.log('loading a new editForm')
-        this.helpticket  = {
+        this.helpticket = {
             Title: "Summarize Help Issue here",
-            PersonID: this.userObj,           
-            OwnerID: "oooooooo111111ooooo",           
+            PersonID: this.userObj,
+            OwnerID: "oooooooo111111ooooo",
             Status: 'new'
         };
 
-        console.log(' this.helpticket Title=' +  this.helpticket .Title)
-        console.log(' this.helpticket status=' +  this.helpticket .Status)
-        console.log(' this.helpticket person=' +  this.helpticket .PersonID)
-        console.log(' this.helpticket owner=' +  this.helpticket .OwnerID)
-
-       /* this.helpTicketContent = {
-            personId: this.userObj._id,
-            content: ""
-        };*/
+        /* this.helpTicketContent = {
+             personId: this.userObj._id,
+             content: ""
+         };*/
         this.showEditForm();
     };
 
 
+    //Show the edit form, and set focus on title
     showEditForm() {
-        this.showHelpTicketEditForm  = true;
+        this.showHelpTicketEditForm = true;
         setTimeout(() => { $("#Title").focus(); }, 500);
     };
 
+    //go back to the grid 
     back() {
         this.showHelpTicketEditForm = false;
-      };
-      
+    };
 
+    //edit a ticket from the grid
     async editHelpTicket(helpticket) {
         console.log('trying to edit a ticket row')
-        this.helpticket = helpticket;    
-/*        this.helpTicketContent = {
-            personId: this.userObj._id,
-            content: ""
-        };
-        await this.helpTickets.getHelpTicketsContents(helpticket._id)*/
+        this.helpticket = helpticket;
+        /*        this.helpTicketContent = {
+                    personId: this.userObj._id,
+                    content: ""
+                };
+                await this.helpTickets.getHelpTicketsContents(helpticket._id)*/
         this.showEditForm();
     };
 
+    //save either a insert, or an update
     async save() {
         console.log('trying to save')
-        console.log(' this.helpticket Title=' +  this.helpticket .Title)
-        console.log(' this.helpticket status=' +  this.helpticket .Status)
-        console.log(' this.helpticket person=' +  this.helpticket .PersonID)
-        console.log(' this.helpticket owner=' +  this.helpticket .OwnerID)
+        console.log(' this.helpticket Title=' + this.helpticket.Title)
+        console.log(' this.helpticket status=' + this.helpticket.Status)
+        console.log(' this.helpticket person=' + this.helpticket.PersonID)
+        console.log(' this.helpticket owner=' + this.helpticket.OwnerID)
 
-        if (this.helpticket && this.helpticket.Title 
+        if (this.helpticket && this.helpticket.Title
             //&& this.helpTicketContent && this.helpTicketContent.content
-            ) {
+        ) {
             if (this.userObj.role !== 'user') {
                 console.log('set owner id')
                 this.helpticket.ownerId = this.userObj._id;
             };
-            let helpTicket =   this.helpticket ;
-//            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
-                                   
-            await this.helpTicket.saveHelpTicket(this.helpticket);
-            await this.helpTicket.getHelpTickets(this.userObj);
+            let helpTicket = this.helpticket;
+            //let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
+
+            await this.helptickets.saveHelpticket(this.helpticket);
+            await this.helptickets.getHelpTickets(this.userObj);
             this.back();
         };
         console.log('end of save')
     };
 
-  //lifecycle method for loading icon
-  attached() {
-    feather.replace()
-  };
+    //lifecycle method for loading icon
+    attached() {
+        feather.replace()
+    };
 
 };
