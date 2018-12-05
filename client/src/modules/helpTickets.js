@@ -2,7 +2,6 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Helpticket } from '../resources/data/help-ticket-object'
 
-
 @inject(Router, Helpticket)
 export class helptickets {
     constructor(router, helptickets) {
@@ -78,8 +77,8 @@ export class helptickets {
             let helpTicket =   this.helpticket ;
 //            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
                                    
-            await this.helptickets.saveHelpTicket(this.helpticket);
-            await this.helptickets.getHelpTickets(this.userObj);
+            await this.helpTicket.saveHelpTicket(this.helpticket);
+            await this.helpTicket.getHelpTickets(this.userObj);
             this.back();
         };
         console.log('end of save')
