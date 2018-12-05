@@ -74,8 +74,8 @@ export class helptickets {
             };
             let helpTicket =   this.helpticket ;
 //            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
-            await this.helptickets..saveHelpTicket(this.helpticket);
-            await this.helptickets..getHelpTickets();
+            await this.helptickets.saveHelpTicket(this.helpticket);
+            await this.helptickets.getHelpTickets();
             this.back();
         };
         console.log('end of save')
