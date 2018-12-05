@@ -41,4 +41,10 @@ export class Helpticket {
         };
     };
 
+    async deleteHelpticket(helpticket) {
+        if (helpticket && helpticket._id) {
+            await this.data.delete(this.HELP_TICKET_SERVICE + '/' + helpticket._id)
+        };
+    };
+
 };

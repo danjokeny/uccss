@@ -7,7 +7,7 @@ export class helptickets {
     constructor(router, helptickets) {
         this.router = router;
         this.helptickets = helptickets;
-        this.message = 'All help tickets page';
+        this.message = 'Help Tickets';
         this.showHelpTicketEditForm = false;
         this.userObj = JSON.parse(sessionStorage.getItem('userObj'));
     };
@@ -23,7 +23,7 @@ export class helptickets {
         this.helpticket = {
             Title: "Summarize Help Issue here",
             PersonID: this.userObj,
-           // OwnerID: "",
+            // OwnerID: "",
             Status: 'new'
         };
 
@@ -81,6 +81,17 @@ export class helptickets {
             this.back();
         };
         console.log('end of save')
+    };
+
+    //Delete help ticket and contents too.
+    async delete() {
+        if (this.helpticket && this.helpticket.Title
+            //&& this.helpTicketContent && this.helpTicketContent.content
+        ) {
+            await this.helptickets.deleteHelpticket(this.helpticket);
+            await this.helptickets.getHelpTickets(this.userObj);
+            this.back();
+        };
     };
 
     //lifecycle method for loading icon
