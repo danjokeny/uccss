@@ -23,10 +23,10 @@ module.exports =
 //Help tickets schema
 var statusValid = ['new', 'inProcess', 'closed'];
 var HelpTicketSchema = new Schema({
-    title: { type: String, require: true },
-    personId: { type: Schema.Types.ObjectId, require: true },
-    ownerId: { type: Schema.Types.ObjectId, require: true },
-    status: { type: String, enum: statusValid, require: true },
+    Title: { type: String, require: true },
+    PersonID: { type: Schema.Types.ObjectId, require: true },
+    OwnerID: { type: Schema.Types.ObjectId },
+    Status: { type: String, enum: statusValid, require: true },
     dateCreated: { type: Date, default: Date.now }
 });
 

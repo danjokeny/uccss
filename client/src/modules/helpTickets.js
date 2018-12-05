@@ -23,7 +23,7 @@ export class helptickets {
         this.helpticket = {
             Title: "Summarize Help Issue here",
             PersonID: this.userObj,
-            OwnerID: "oooooooo111111ooooo",
+           // OwnerID: "",
             Status: 'new'
         };
 

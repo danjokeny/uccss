@@ -28,7 +28,12 @@ module.exports = function (app, config) {
     }*/
     router.post('/helpTickets',  asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
+        logger.log('info', req.body.Title);
+        logger.log('info', req.body.Status);
+
         var helpticket = new HelpTicket(req.body);
+        logger.log('info', helpticket.Title);
+        logger.log('info', helpticket.Status);
         await helpticket.save()
             .then(result => {
                 logger.log('info', 'Creating helpTicket = ' + result);
