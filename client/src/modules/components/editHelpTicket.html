@@ -41,16 +41,29 @@
                     <div class="row">
                         <div class="col">
                             <label for="OwnerFirstName">Owner First Name</label>
-                            <input class="form-control" type="text" placeholder="Owner TBD" readonly
-                                value.bind="helpticket.OwnerID.fname">
+                            <input class="form-control" type="text" placeholder="Owner TBD" readonly value.bind="helpticket.OwnerID.fname">
                         </div>
                         <div class="col">
                             <label for="OwnerLastName">Owner Last Name</label>
-                            <input class="form-control" type="text" placeholder="Owner TBD" readonly
-                                value.bind="helpticket.OwnerID.lname">
+                            <input class="form-control" type="text" placeholder="Owner TBD" readonly value.bind="helpticket.OwnerID.lname">
                         </div>
                     </div>
                 </form>
+
+                <div class="card" style="padding: 3px; margin-top: 15px; ">
+                    <div class="card-body">
+                        Help Ticket Contents:
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 3px; margin-top: 15px; " repeat.for="Content of helptickets.helpticketscontentArray">
+                    <div class="row" style="padding: 3px;">
+                        <div class="col-9" style="margin-bottom: 15px; border-left-style: solid;border-left-width: 1px;">
+                            ${Content.Content}
+                        </div>
+                    </div>
+                </div>
+                <Br /><Br />
             </div>
         </div>
     </div>

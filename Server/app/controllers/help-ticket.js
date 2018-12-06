@@ -26,22 +26,18 @@ module.exports = function (app, config) {
     "OwnerID": "5c02f00eef1abf258882cc24",
     "Status": "new"
     }*/
-    router.post('/helpTickets',  asyncHandler(async (req, res) => {
-        logger.log('info', 'Creating helpTicket Async Post');
-        logger.log('info', req.body.Title);
-        logger.log('info', req.body.Status);
+    /*    router.post('/helpTickets',  asyncHandler(async (req, res) => {
+            var helpticket = new HelpTicket(req.body);
+            logger.log('info', helpticket.Title);
+            logger.log('info', helpticket.Status);
+            await helpticket.save()
+                .then(result => {
+                    logger.log('info', 'Creating helpTicket = ' + result);
+                    res.status(201).json(result);
+                })
+        }));*/
 
-        var helpticket = new HelpTicket(req.body);
-        logger.log('info', helpticket.Title);
-        logger.log('info', helpticket.Status);
-        await helpticket.save()
-            .then(result => {
-                logger.log('info', 'Creating helpTicket = ' + result);
-                res.status(201).json(result);
-            })
-    }));
-    /*comment out to test if post works
-    router.post('/helpTickets',requireAuth,  asyncHandler(async (req, res) => {
+    router.post('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Creating HelpTicket & HelpTicektContent');
         var helpTicket = new HelpTicket(req.body.helpTicket);
         await helpTicket.save()
@@ -53,12 +49,12 @@ module.exports = function (app, config) {
                         res.status(201).json(result);
                     })
             })
-    }));*/
+    }));
 
     //Get All helpTickets (check for Status parameter passed)
     //Sort on attribute passed
     //Sample: http://localhost:5000/api/helpTickets/
-    router.get('/helpTickets',  asyncHandler(async (req, res) => {
+    router.get('/helpTickets', asyncHandler(async (req, res) => {
         logger.log('info', 'Get all helpTickets');
         let query = HelpTicket.find();
         //Sort on ?order
@@ -108,29 +104,22 @@ module.exports = function (app, config) {
     "Status": "new",
     "DateCreated": "2018-12-02T06:10:11.768Z"
     }*/
-    router.put('/helpTickets',  asyncHandler(async (req, res) => {
-        logger.log('info', 'Updating helpTicket');
-        logger.log('info', 'Update request =' + req);
-        logger.log('info', 'id to update =' + req.body._id);
-        logger.log('info', 'status to update =' + req.body.Status);
-        
+    /*router.put('/helpTickets',  asyncHandler(async (req, res) => {       
         await HelpTicket.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
             .then(result => {
                 logger.log('info', 'Updated helpTicket =' + result);
                 res.status(200).json(result);
             })
-    }));
+    }));*/
 
-    /*
     router.put('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Updating HelpTicket & HekpTicketConent');
-        console.log(req.body)
-        await HelpTicket.findOneAndUpdate({ _id: req.body.helpTicket._id }, req.body.helpTicket, { new: true })
+        await HelpTicket.findOneAndUpdate({ _id: req.body.helpticket._id }, req.body.helpticket, { new: true })
             .then(result => {
                 if (req.body.content) {
-                    req.body.content.helpTicketId = result._id;
-                    var helpTicketContent = new HelpTicketContent(req.body.content);
-                    helpTicketContent.save()
+                    req.body.content.helpticketId = result._id;
+                    var helpticketcontent = new HelpTicketContent(req.body.content);
+                    helpticketcontent.save()
                         .then(content => {
                             res.status(201).json(result);
                         })
@@ -138,29 +127,29 @@ module.exports = function (app, config) {
                     res.status(200).json(result);
                 }
             })
-    }));*/
+    }));
 
-/*
-    //Delete existing helpticket
-    //Sample:http://localhost:5000/api/helpTickets/5c0377d0a7bb2fb12ca389bb
-    router.delete('/helpTickets/:id', requireAuth, asyncHandler(async (req, res) => {
-        logger.log('info', 'Deleting helpTicket =  %s', req.params.id);
-        await HelpTicket.remove({ _id: req.params.id })
-            .then(result => {
-                logger.log('info', 'Deleted helpTicket = %s', req.params.id);
-                res.status(200).json(result);
-            })
-    }));*/
+    /*
+        //Delete existing helpticket
+        //Sample:http://localhost:5000/api/helpTickets/5c0377d0a7bb2fb12ca389bb
+        router.delete('/helpTickets/:id', requireAuth, asyncHandler(async (req, res) => {
+            logger.log('info', 'Deleting helpTicket =  %s', req.params.id);
+            await HelpTicket.remove({ _id: req.params.id })
+                .then(result => {
+                    logger.log('info', 'Deleted helpTicket = %s', req.params.id);
+                    res.status(200).json(result);
+                })
+        }));*/
 
     router.delete('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'deleting HelpTicket & HekpTicketConent');
         console.log(req.body)
-        await HelpTicket.remove({ _id: req.body.helpTicket._id },  { new: true })
+        await HelpTicket.remove({ _id: req.body.helpTicket._id }, { new: true })
             .then(result => {
                 if (req.body.content) {
                     req.body.content.helpTicketId = result._id;
                     var helpTicketContent = new HelpTicketContent(req.body.content);
-                    helpTicketContent.remove({ _id: req.body.helpTicketContent._id },  { new: true })
+                    helpTicketContent.remove({ _id: req.body.helpTicketContent._id }, { new: true })
                         .then(content => {
                             res.status(201).json(result);
                         })
@@ -186,7 +175,7 @@ module.exports = function (app, config) {
         }
     */
     //router.post('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
-    router.post('/HelpTicketContent',  asyncHandler(async (req, res) => {
+    router.post('/HelpTicketContent', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticketcontent = new HelpTicketContent(req.body);
         await helpticketcontent.save()
@@ -199,7 +188,7 @@ module.exports = function (app, config) {
     //Get All HelpTicketContent (check for Status parameter passed)
     //Sort on attribute passed
     //Sample: http://localhost:5000/api/HelpTicketContent/
-    router.get('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
+    router.get('/HelpTicketContent', asyncHandler(async (req, res) => {
         logger.log('info', 'Get all HelpTicketContent');
         let query = HelpTicketContent.find();
         //Sort on ?order
@@ -214,21 +203,16 @@ module.exports = function (app, config) {
     }));
 
 
-
-    //Get HelpTicketContent for a specific help ticket
-    //Sample: http://localhost:5000/api/helpTicketContents/helpTicket/5c037760a7bb2fb12ca389b8
-    router.get('/helpTicketContent/helpTicket', requireAuth, asyncHandler(async (req, res) => {
+    //Get HelpTicketContent for a specific help ticket content id
+    //Sample: http://localhost:5000/api/HelpTicketContent/helpTicket/5c053ebcc958b333f891ced2
+    router.get('/HelpTicketContent/helpTicket/:id', asyncHandler(async (req, res) => {
+        logger.log('info', 'Get all HelpTicketContent for helpticket = %s', req.params.id);
         let query = HelpTicketContent.find()
         query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
 
         //check the helpTicketId that matches the GET URL
-        logger.log('info', 'Get all HelpTicketContent for helpticket = ' + req.query.helpTicketId);
-        if (req.query.helpTicketId) {
-            if (req.query.helpTicketId[0] == '-') {
-                query.where('helpTicketId').ne(req.query.helpTicketI.substring(1));
-            } else {
-                query.where('helpTicketId').eq(req.query.helpTicketId);
-            }
+        if (req.params.id) {
+            query.where('helpTicketId').eq(req.params.id);
         };
 
         await query.exec().then(result => {
@@ -237,6 +221,7 @@ module.exports = function (app, config) {
         })
     }));
 
+    /* probably do not need these  routes
     //Get specific HelpTicketContent Request 
     //Sample: http://localhost:5000/api/HelpTicketContent/5c04006a9b566efae0378c22
     router.get('/HelpTicketContent/:id', requireAuth, asyncHandler(async (req, res) => {
@@ -249,6 +234,22 @@ module.exports = function (app, config) {
             res.status(200).json(result);
         })
     }));
+        //Get All HelpTicketContent (check for Status parameter passed)
+    //Sort on attribute passed
+    //Sample: http://localhost:5000/api/HelpTicketContent/
+    router.get('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
+        logger.log('info', 'Get all HelpTicketContent');
+        let query = HelpTicketContent.find();
+        //Sort on ?order
+        query.sort(req.query.order)
+            //Join with user table to get names
+            .populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
+
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        });
+    }));*/
 
     //Update existing helpticket row with json passed in raw body
     //Sample:http://localhost:5000/api/HelpTicketContent/

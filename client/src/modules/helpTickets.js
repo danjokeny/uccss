@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { Helpticket } from '../resources/data/help-ticket-object'
 
 @inject(Router, Helpticket)
+
 export class helptickets {
     constructor(router, helptickets) {
         this.router = router;
@@ -20,6 +21,8 @@ export class helptickets {
     //pre-populate form for adding a new help ticket
     newHelpTicket() {
         console.log('loading a new editForm')
+        this.helpticket = "";
+        helptickets.helpticketscontentArray = [];
         this.helpticket = {
             Title: "Summarize Help Issue here",
             PersonID: this.userObj,
@@ -27,10 +30,10 @@ export class helptickets {
             Status: 'new'
         };
 
-        /* this.helpTicketContent = {
-             personId: this.userObj._id,
-             content: ""
-         };*/
+        this.helpticketcontent = {
+            personId: this.userObj._id,
+            content: ""
+        };
         this.showEditForm();
     };
 
@@ -50,11 +53,12 @@ export class helptickets {
     async editHelpTicket(helpticket) {
         console.log('trying to edit a ticket row')
         this.helpticket = helpticket;
-        /*        this.helpTicketContent = {
-                    personId: this.userObj._id,
-                    content: ""
-                };
-                await this.helpTickets.getHelpTicketsContents(helpticket._id)*/
+        this.HelpTicketContent = {
+            personId: this.userObj._id,
+            content: ""
+        };
+
+        await this.helptickets.getHelpTicketsContents(helpticket._id)
         this.showEditForm();
     };
 
@@ -67,16 +71,16 @@ export class helptickets {
         console.log(' this.helpticket owner=' + this.helpticket.OwnerID)
 
         if (this.helpticket && this.helpticket.Title
-            //&& this.helpTicketContent && this.helpTicketContent.content
+            && this.helpticketcontent && this.helpticketcontent.content
         ) {
             if (this.userObj.role !== 'user') {
                 console.log('set owner id')
                 this.helpticket.ownerId = this.userObj._id;
             };
-            let helpTicket = this.helpticket;
-            //let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
+            //let helpTicket = this.helpticket;
+            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketcontent };
 
-            await this.helptickets.saveHelpticket(this.helpticket);
+            await this.helptickets.saveHelpticket(helpTicket);
             await this.helptickets.getHelpTickets(this.userObj);
             this.back();
         };
