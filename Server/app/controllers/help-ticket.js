@@ -140,7 +140,7 @@ module.exports = function (app, config) {
             })
     }));*/
 
-
+/*
     //Delete existing helpticket
     //Sample:http://localhost:5000/api/helpTickets/5c0377d0a7bb2fb12ca389bb
     router.delete('/helpTickets/:id', requireAuth, asyncHandler(async (req, res) => {
@@ -149,6 +149,24 @@ module.exports = function (app, config) {
             .then(result => {
                 logger.log('info', 'Deleted helpTicket = %s', req.params.id);
                 res.status(200).json(result);
+            })
+    }));*/
+
+    router.delete('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
+        logger.log('info', 'deleting HelpTicket & HekpTicketConent');
+        console.log(req.body)
+        await HelpTicket.remove({ _id: req.body.helpTicket._id },  { new: true })
+            .then(result => {
+                if (req.body.content) {
+                    req.body.content.helpTicketId = result._id;
+                    var helpTicketContent = new HelpTicketContent(req.body.content);
+                    helpTicketContent.remove({ _id: req.body.helpTicketContent._id },  { new: true })
+                        .then(content => {
+                            res.status(201).json(result);
+                        })
+                } else {
+                    res.status(200).json(result);
+                }
             })
     }));
 

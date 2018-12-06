@@ -23,6 +23,7 @@ export class NavBar {
     //authenticate and save token is local object as well as 
     //add user object from session object, and set isAuthenticated to true
     login() {
+        console.log('authenticated flag=' + this.isAuthenticated)
         return this.auth.login(this.email, this.password)
             .then(response => {
                 this.userObj = response.user;
@@ -36,7 +37,7 @@ export class NavBar {
                 this.authenticated = false;
                 this.loginError = "Invalid credentials.";
             });
-
+            console.log('authenticated flag=' + this.isAuthenticated)
     };
 
     //remove user object from session object, and set isAuthenticated to false
@@ -47,9 +48,16 @@ export class NavBar {
         this.auth.logout();
     };
 
+    //loading nav bar, set auth to false
+    async activate() {
+        this.isAuthenticated = false;
+        console.log('authenticated flag=' + this.isAuthenticated)
+    };
+
     //bind lifecycle method to initialize the isAuthenticated
     bind() {
         this.isAuthenticated = this.auth.isAuthenticated();
+        console.log('authenticated flag=' + this.isAuthenticated)
     }
 
 };

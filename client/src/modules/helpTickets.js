@@ -86,9 +86,10 @@ export class helptickets {
     //Delete help ticket and contents too.
     async delete() {
         if (this.helpticket && this.helpticket.Title
-            //&& this.helpTicketContent && this.helpTicketContent.content
+            && this.helpticketContent && this.helpticketContent.content
         ) {
-            await this.helptickets.deleteHelpticket(this.helpticket);
+            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
+            await this.helptickets.deleteHelpticket(helpTicket);
             await this.helptickets.getHelpTickets(this.userObj);
             this.back();
         };
