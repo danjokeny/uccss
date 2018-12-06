@@ -141,22 +141,26 @@ module.exports = function (app, config) {
                 })
         }));*/
 
-    router.delete('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
-        logger.log('info', 'deleting HelpTicket & HekpTicketConent');
-        console.log(req.body)
-        await HelpTicket.remove({ _id: req.body.helpTicket._id }, { new: true })
-            .then(result => {
-                if (req.body.content) {
-                    req.body.content.helpTicketId = result._id;
-                    var helpTicketContent = new HelpTicketContent(req.body.content);
-                    helpTicketContent.remove({ _id: req.body.helpTicketContent._id }, { new: true })
-                        .then(content => {
-                            res.status(201).json(result);
-                        })
-                } else {
-                    res.status(200).json(result);
-                }
-            })
+    router.delete('/helptickets/:id', requireAuth, asyncHandler(async (req, res) => {
+        logger.log('info', 'deleting HelpTicket & HekpTicketConent for id' + req.params.id);
+
+        let query = HelpTicket.remove();
+        query.where('_id').eq(req.params.id);
+
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        });
+
+        await query.exec().then(result => {
+            console.log(result);
+            query = HelpTicketContent.remove()
+            query.where('helpTicketId').eq(req.params.id);
+            query.exec().then(result => {
+                console.log(result);
+                res.status(200).json(result);
+            });
+        });
     }));
 
 

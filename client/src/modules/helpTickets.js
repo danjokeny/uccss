@@ -24,16 +24,16 @@ export class helptickets {
         this.helpticket = "";
         helptickets.helpticketscontentArray = [];
         this.helpticket = {
-            Title: "Summarize Help Issue here",
+            Title: "",
             PersonID: this.userObj,
             // OwnerID: "",
             Status: 'new'
         };
 
         this.helpticketcontent = {
-            personId: this.userObj._id,
-            content: ""
+            PersonID: ""
         };
+        helptickets.helpticketscontentArray.push(this.helpticketcontent)
         this.showEditForm();
     };
 
@@ -50,6 +50,7 @@ export class helptickets {
 
     //go back to the grid 
     back() {
+        helptickets.helpticketscontentArray = [];
         this.showHelpTicketEditForm = false;
     };
 
@@ -59,7 +60,7 @@ export class helptickets {
         this.helpticket = helpticket;
         this.HelpTicketContent = {
             personId: this.userObj._id,
-            content: ""
+            content: "enter comments/content here"
         };
 
         await this.helptickets.getHelpTicketsContents(helpticket._id)
@@ -68,14 +69,17 @@ export class helptickets {
 
     //save either a insert, or an update
     async save() {
-        console.log('trying to save')
+        console.log('trying to save both content and ticket')
         console.log(' this.helpticket Title=' + this.helpticket.Title)
         console.log(' this.helpticket status=' + this.helpticket.Status)
         console.log(' this.helpticket person=' + this.helpticket.PersonID)
         console.log(' this.helpticket owner=' + this.helpticket.OwnerID)
+        console.log(' this.helpticketcontent.content=' + this.helpticketcontent.Content)
+        console.log(' this.helpticketcontent person=' + this.helpticketcontent.PersonID)
+
 
         if (this.helpticket && this.helpticket.Title
-            && this.helpticketcontent && this.helpticketcontent.content
+            && this.helpticketcontent && this.helpticketcontent.Content
         ) {
             if (this.userObj.role !== 'user') {
                 console.log('set owner id')
@@ -91,13 +95,10 @@ export class helptickets {
         console.log('end of save')
     };
 
-    //Delete help ticket and contents too.
+    //Delete help ticket and contents too
     async delete() {
-        if (this.helpticket && this.helpticket.Title
-            && this.helpticketContent && this.helpticketContent.content
-        ) {
-            let helpTicket = { helpTicket: this.helpticket, content: this.helpticketContent };
-            await this.helptickets.deleteHelpticket(helpTicket);
+        if (this.helpticket && this.helpticket._id) {
+            await this.helptickets.deleteHelpticket(this.helpticket._id);
             await this.helptickets.getHelpTickets(this.userObj);
             this.back();
         };

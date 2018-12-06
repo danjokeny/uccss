@@ -37,11 +37,12 @@ export class Helpticket {
         } else {
             this.helpticketscontentArray = [];
         };
+
         console.log('finished getting all content for  help ticket = ' + inticketid);
     };
 
     async saveHelpticket(helpticket) {
-        console.log("inside the help ticket object.js file")
+        console.log("inside the help ticket object.js file");
         let serverResponse;
         if (helpticket) {
             if (helpticket._id) {
@@ -55,10 +56,12 @@ export class Helpticket {
         };
     };
 
-    async deleteHelpticket(helpticket) {
-        if (helpticket && helpticket._id) {
-            await this.data.delete(this.HELP_TICKET_SERVICE + '/' + helpticket._id)
+    async deleteHelpticket(inhelpticket) {
+        console.log("delete help tickets and contents ");
+        let serverResponse;
+        if (inhelpticket) {
+            await this.data.delete(this.HELP_TICKET_SERVICE + '/' + inhelpticket)
         };
+        return serverResponse;
     };
-
 };
