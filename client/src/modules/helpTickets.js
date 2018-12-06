@@ -37,6 +37,10 @@ export class helptickets {
         this.showEditForm();
     };
 
+    newContent () {
+        console.log('how do i add to content?')
+    };
+
 
     //Show the edit form, and set focus on title
     showEditForm() {
