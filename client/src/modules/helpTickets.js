@@ -26,12 +26,18 @@ export class helptickets {
         this.helpticket = {
             Title: "",
             PersonID: this.userObj,
-            // OwnerID: "",
+            OwnerID: "",
             Status: 'new'
         };
 
         this.helpticketcontent = {
-            PersonID: ""
+            Content: "",
+            PersonID: "",
+            helpTicketId: "",
+            file: {
+                FileName: "",
+                OriginalFileName: ""
+            }
         };
         helptickets.helpticketscontentArray.push(this.helpticketcontent)
         this.showEditForm();
@@ -76,14 +82,15 @@ export class helptickets {
         console.log(' this.helpticket owner=' + this.helpticket.OwnerID)
         console.log(' this.helpticketcontent.content=' + this.helpticketcontent.Content)
         console.log(' this.helpticketcontent person=' + this.helpticketcontent.PersonID)
-
+        console.log(' this.helpticketcontent helpTicketId=' + this.helpticketcontent.helpTicketId)
+        
 
         if (this.helpticket && this.helpticket.Title
             && this.helpticketcontent && this.helpticketcontent.Content
         ) {
             if (this.userObj.role !== 'user') {
                 console.log('set owner id')
-                this.helpticket.ownerId = this.userObj._id;
+                this.helpticket.OwnerID = this.userObj._id;
             };
             //let helpTicket = this.helpticket;
             let helpTicket = { helpTicket: this.helpticket, content: this.helpticketcontent };

@@ -38,14 +38,31 @@ module.exports = function (app, config) {
         }));*/
 
     router.post('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
+        logger.log('info', '***************************************');
         logger.log('info', 'Creating HelpTicket & HelpTicektContent');
+
         var helpTicket = new HelpTicket(req.body.helpTicket);
+        var helpTicketContent = new HelpTicketContent(req.body.content);
+
+        logger.log('info', 'Creating helpTicket = ' + helpTicket);
+        logger.log('info', 'Creating helpTicketContent = ' + helpTicketContent);
+
         await helpTicket.save()
             .then(result => {
-                req.body.content.helpTicketId = result._id;
-                var helpTicketContent = new HelpTicketContent(req.body.content);
+                logger.log('info', 'inside save helpticket');
+                logger.log('info', 'result._id =' + result._id);
+
+                helpTicketContent.helpTicketId = result._id
+                logger.log('info', 'helpTicketContent.helpTicketId =' + helpTicketContent.helpTicketId);
+
+                helpTicketContent.PersonID = helpTicket.PersonID
+                logger.log('info', 'helpTicketContent.PersonID =' + helpTicketContent.PersonID);
+
+                logger.log('info', 'inserting row for  content = ' + helpTicketContent);
+
                 helpTicketContent.save()
-                    .then(content => {
+                    .then(result => {
+                        logger.log('info', 'inside save content');
                         res.status(201).json(result);
                     })
             })
