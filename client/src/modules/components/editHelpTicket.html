@@ -1,78 +1,87 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-4">
-                <div class="list-group-item">
-                    <span click.trigger="back()"><i data-feather="arrow-left-circle"></i></span>
-                    <span click.trigger="save()" style="margin-left:5px;"><i data-feather="save"></i></span>
-                    <span show.bind="helpticket._id" click.trigger="delete()"><i data-feather="trash"></i></span>
-                </div>
+                Actions
+                <div class="row-md">
+                    <div class="list-group-item">
+                        <span click.trigger="back()"><i data-feather="arrow-left-circle"></i></span>
+                        <span click.trigger="save()" style="margin-left:5px;"><i data-feather="save"></i></span>
+                        <span show.bind="helpticket._id" click.trigger="delete()"><i data-feather="trash"></i></span>
+                    </div>
+                    <div class="form-group" style="margin-top:20px;">
+                        <label for="Title">Title</label>
+                        <input class="form-control" type="text" placeholder="Title" id="Title" readonly.bind="helpticket._id"
+                            value.bind="helpticket.Title">
+                    </div>
 
-                <div class="form-group" style="margin-top:20px;">
-                    <label for="Title">Title</label>
-                    <input class="form-control" type="text" placeholder="Title" id="Title" readonly.bind="helpticket._id"
-                        value.bind="helpticket.Title">
+                    <form style="margin-top:20px;">
+                        <div class="row">
+                            <div class="col">
+                                <label for="PersonFirstName">Person First Name</label>
+                                <input class="form-control" type="text" placeholder="" readonly value.bind="helpticket.PersonID.fname">
+
+                            </div>
+                            <div class="col">
+                                <label for="PersonLastName">Person Last Name</label>
+                                <input class="form-control" type="text" placeholder="" readonly value.bind="helpticket.PersonID.lname">
+                            </div>
+                        </div>
+                    </form>
+
+                    <form style="margin-top:20px;">
+                        <div class="row">
+                            <div class="col">
+                                <label for="OwnerFirstName">Owner First Name</label>
+                                <input class="form-control" type="text" placeholder="" readonly value.bind="helpticket.OwnerID.fname">
+
+                            </div>
+                            <div class="col">
+                                <label for="OwnerLastName">Owner Last Name</label>
+                                <input class="form-control" type="text" placeholder="" readonly value.bind="helpticket.OwnerID.lname">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div>
+            </div>
+
+            <div class="col-2">
+                Update Values
+                <div class="row-md">
                     <label for="Status">Status</label>
                     <select value.bind="helpticket.Status" class="form-control" id="Status">
                         <option value="new">new</option>
                         <option value="inProcess">inProcess</option>
                         <option value="closed">closed</option>
                     </select>
-                </div>
-
-                <form style="margin-top:20px;">
-                    <div class="row">
-                        <div class="col">
-                            <label for="PersonFirstName">Person First Name</label>
-                            <input class="form-control" type="text" placeholder="" readonly value.bind="helpticket.PersonID.fname">
-
-                        </div>
-                        <div class="col">
-                            <label for="PersonFirstName">Person Last Name</label>
-                            <input class="form-control" type="text" placeholder="" readonly value.bind="helpticket.PersonID.lname">
-                        </div>
-                    </div>
-                </form>
-
-
-                <form style="margin-top:20px;">
-                    <div class="row">
-                        <div class="col">
-                            <label for="OwnerFirstName">Owner First Name</label>
-                            <input class="form-control" type="text" placeholder="Owner TBD" readonly value.bind="helpticket.OwnerID.fname">
-                        </div>
-                        <div class="col">
-                            <label for="OwnerLastName">Owner Last Name</label>
-                            <input class="form-control" type="text" placeholder="Owner TBD" readonly value.bind="helpticket.OwnerID.lname">
-                        </div>
-                    </div>
-                </form>
-
-                <div class="form-group" style="margin-top:30px;">
-                    <label for="content">Add content description</label>
-                    <textarea value.bind="helpticketcontent.Content" class="form-control" rows='8'></textarea> 
-                </div>
-
-                <div class="card" style="padding: 3px; margin-top: 15px; ">
-                    <div class="card-body">
-                        Help Ticket Previous Comments/Content:
-                    </div>
-
-                </div>
-
-                <div class="card" style="padding: 3px; margin-top: 15px; " repeat.for="Content of helptickets.helpticketscontentArray">
-                    <div class="row" style="padding: 3px;">
-                        <div class="col-9" style="margin-bottom: 15px; 
-                        border-left-style: solid;border-left-width: 1px;"
-                        value.bind="helpTicketContent.Content">
-                        ${Content.Content}
-                        </div>
+                    <div class="form-group" style="margin-top:30px;">
+                        <label for="content">Add content description</label>
+                        <textarea value.bind="helpticketcontent.Content" class="form-control" rows='8'></textarea>
                     </div>
                 </div>
-                <Br /><Br />
+            </div>
+
+            <div class="col-2">
+                History
+                <div class="row-md">
+
+                    <div class="card" style="padding: 3px; margin-top: 15px; ">
+                        <div class="card-body">
+                            Help Ticket Previous Comments/Content:
+                        </div>
+
+                    </div>
+
+                    <div class="card" style="padding: 3px; margin-top: 15px; " repeat.for="Content of helptickets.helpticketscontentArray">
+                        <div class="row" style="padding: 3px;">
+                            <div class="col-9" style="margin-bottom: 15px; 
+                                border-left-style: solid;border-left-width: 1px;"
+                                value.bind="helpTicketContent.Content">
+                                ${Content.Content}
+                            </div>
+                        </div>
+                    </div>
+                    <Br /><Br />
+                </div>
             </div>
         </div>
-    </div>
 </template>

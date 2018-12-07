@@ -19,11 +19,11 @@
                     </thead>
                     <tbody>
                         <tr click.trigger="editHelpTicket(helpticket)" repeat.for="helpticket of helptickets.helpticketsArray">
-                            <td >${helpticket.Title}</td>
-                            <td >${helpticket.Status}</td>
-                            <td >${helpticket.PersonID.fname}
+                            <td>${helpticket.Title}</td>
+                            <td>${helpticket.Status}</td>
+                            <td>${helpticket.PersonID.fname}
                                 ${helpticket.PersonID.lname} </td>
-                            <td >${helpticket.OwnerID.fname}
+                            <td>${helpticket.OwnerID.fname}
                                 ${helpticket.OwnerID.lname} </td>
                         </tr>
                     </tbody>
