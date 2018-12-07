@@ -50,12 +50,6 @@ export class helptickets {
         this.showEditForm();
     };
 
-    /* do i need this?
-    newContent () {
-        console.log('how do i add to content?')
-    };*/
-
-
     //Show the edit form, and set focus on title
     showEditForm() {
         this.showHelpTicketEditForm = true;
@@ -101,11 +95,11 @@ export class helptickets {
             //save help ticket & content both
             await this.helptickets.saveHelpticketAndContent(helpTicket);
         };
+
         //Get all tickets for grid
         await this.helptickets.getHelpTickets(this.userObj);
         //go back to grid from the edit form
         this.back();
-        console.log('end of save')
     };
 
     //Delete help ticket and contents too

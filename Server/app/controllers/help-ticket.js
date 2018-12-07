@@ -17,26 +17,7 @@ module.exports = function (app, config) {
 
     //HelpTicket Routes
 
-    /*comment out to replace with combination post for helpticket and helpticketconent
-    create new helpTickets api Post request with json passed in raw body
-    Sample: http://localhost:5000/api/helpTickets
-    {
-    "Title": "Mr.",
-    "PersonID": "5bd080482c9c2a74ecf2ace3",
-    "OwnerID": "5c02f00eef1abf258882cc24",
-    "Status": "new"
-    }*/
-    /*    router.post('/helpTickets',  asyncHandler(async (req, res) => {
-            var helpticket = new HelpTicket(req.body);
-            logger.log('info', helpticket.Title);
-            logger.log('info', helpticket.Status);
-            await helpticket.save()
-                .then(result => {
-                    logger.log('info', 'Creating helpTicket = ' + result);
-                    res.status(201).json(result);
-                })
-        }));*/
-
+    //post route to allow insert of both tickets and content
     router.post('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', '***************************************');
         logger.log('info', 'Creating HelpTicket & HelpTicektContent');
@@ -110,25 +91,7 @@ module.exports = function (app, config) {
         })
     }));
 
-    /*comment out to replace with PUT to update both helpticket and helptticketcontent together
-    Update existing helpticket row with json passed in raw body
-    //Sample:http://localhost:5000/api/helpTickets/5c037743a7bb2fb12ca389b7
-    {
-    "_id": "5c037743a7bb2fb12ca389b7",
-    "Title": "Mr.",
-    "PersonID": "5bd312221d702b16809db1bd",
-    "OwnerID":  "5c02f00eef1abf258882cc24",
-    "Status": "new",
-    "DateCreated": "2018-12-02T06:10:11.768Z"
-    }*/
-    /*router.put('/helpTickets',  asyncHandler(async (req, res) => {       
-        await HelpTicket.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
-            .then(result => {
-                logger.log('info', 'Updated helpTicket =' + result);
-                res.status(200).json(result);
-            })
-    }));*/
-
+    //update (PUT) request for both ticket and content
     router.put('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         
         logger.log('info', 'Updating HelpTicket & HekpTicketConent');
@@ -149,8 +112,6 @@ module.exports = function (app, config) {
         logger.log('info', '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
         logger.log('info', 'intent to insert row for  content = ' + helpTicketContent);
 
-
-
         await HelpTicket.findOneAndUpdate({ _id: helpTicket._id }, helpTicket, { new: true })
             .then(result => {
                 if (helpTicketContent) {
@@ -164,18 +125,7 @@ module.exports = function (app, config) {
             })
     }));
 
-    /*
-        //Delete existing helpticket
-        //Sample:http://localhost:5000/api/helpTickets/5c0377d0a7bb2fb12ca389bb
-        router.delete('/helpTickets/:id', requireAuth, asyncHandler(async (req, res) => {
-            logger.log('info', 'Deleting helpTicket =  %s', req.params.id);
-            await HelpTicket.remove({ _id: req.params.id })
-                .then(result => {
-                    logger.log('info', 'Deleted helpTicket = %s', req.params.id);
-                    res.status(200).json(result);
-                })
-        }));*/
-
+    //Delete existing helpticket and content 
     router.delete('/helptickets/:id', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'deleting HelpTicket & HekpTicketConent for id' + req.params.id);
 
@@ -201,22 +151,8 @@ module.exports = function (app, config) {
 
     //HelpTicketContent Routes
 
-    /*create new HelpTicketContent  Post request with json passed in raw body
-        Sample: http://localhost:5000/api/HelpTicketContent
-        {
-            "PersonID": "5c035307ef1abf258882cc37",
-            "Content":"need a new job too",
-            "helpTicketId": "5c037760a7bb2fb12ca389b8",
-            "file": {
-                "FileName": "Filename here",
-                "OriginalFileName": "original filename here"
-            }
-        }
-    */
 
-    //definitely need this one
-
-    //router.post('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
+    //insert just a content record
     router.post('/HelpTicketContent', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
         var helpticketcontent = new HelpTicketContent(req.body);
@@ -227,6 +163,7 @@ module.exports = function (app, config) {
             })
     }));
 
+    //do we need this?
     //Get All HelpTicketContent (check for Status parameter passed)
     //Sort on attribute passed
     //Sample: http://localhost:5000/api/HelpTicketContent/
@@ -263,22 +200,10 @@ module.exports = function (app, config) {
         })
     }));
 
-    /* probably do not need these  routes
-    //Get specific HelpTicketContent Request 
-    //Sample: http://localhost:5000/api/HelpTicketContent/5c04006a9b566efae0378c22
-    router.get('/HelpTicketContent/:id', requireAuth, asyncHandler(async (req, res) => {
-        logger.log('info', 'Get specific HelpTicketContent by id =  %s', req.params.id);
-        let query = HelpTicketContent.findById(req.params.id)
-        query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' });
 
-        await query.exec().then(result => {
-            console.log(result);
-            res.status(200).json(result);
-        })
-    }));
-        //Get All HelpTicketContent (check for Status parameter passed)
+    //do we need this route???????
+    //Get All HelpTicketContent (check for Status parameter passed)
     //Sort on attribute passed
-    //Sample: http://localhost:5000/api/HelpTicketContent/
     router.get('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Get all HelpTicketContent');
         let query = HelpTicketContent.find();
@@ -291,24 +216,12 @@ module.exports = function (app, config) {
             console.log(result);
             res.status(200).json(result);
         });
-    }));*/
+    }));
 
 
 
     //Update existing helpticket row with json passed in raw body
-    //Sample:http://localhost:5000/api/HelpTicketContent/
-    /*    {
-        "file": {
-            "FileName": "Filename here",
-            "OriginalFileName": "original filename here"
-        },
-        "_id": "5c03ff189b566efae0378c1c",
-        "PersonID": "5c035307ef1abf258882cc37",
-        "Content": "help me with my christmas decorating please",
-        "helpTicketId": "5c037760a7bb2fb12ca389b8",
-        "DateCreated": "2018-12-02T15:49:44.209Z",
-        "__v": 1
-    }*/
+    //do we need this route?
     router.put('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Updating HelpTicketContent');
         await HelpTicketContent.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
@@ -318,6 +231,7 @@ module.exports = function (app, config) {
             })
     }));
 
+    //do we need this route?
     //Delete existing HelpTicketContent
     //Sample:http://localhost:5000/api/HelpTicketContent/5c0377d0a7bb2fb12ca389bb
     router.delete('/HelpTicketContent/:id', requireAuth, asyncHandler(async (req, res) => {

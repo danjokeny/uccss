@@ -9,6 +9,7 @@ export class User {
         this.USER_SERVICE = 'users';
     };
 
+    //set up save user route (put and post)
     async saveUser(user) {
         let serverResponse;
         if (user) {
@@ -21,6 +22,7 @@ export class User {
         };
       };
 
+    //set up get users route
     async getUsers() {
         let response = await this.data.get(this.USER_SERVICE);
         if (!response.error) {
@@ -28,9 +30,9 @@ export class User {
         } else {
             this.usersArray = [];
         };
-        console.log('get all users complete')
     };
 
+    //setup dete user route
     async delete(user) {
         if (user && user._id) {
             await this.data.delete(this.USER_SERVICE + '/' + user._id)

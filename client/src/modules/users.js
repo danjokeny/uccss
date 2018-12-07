@@ -25,6 +25,7 @@ export class users {
     this.openEditForm();
   };
 
+  //save user for insert and update
   async save() {
     if (this.user && this.user.fname && this.user.lname
       && this.user.email && this.user.password)
@@ -33,20 +34,24 @@ export class users {
     this.back();
   };
 
+  //back to user grid
   back() {
     this.showUserEditForm = false;
   };
 
+  //set the form to selected user
   editUser(user) {
     this.user = user;
     this.openEditForm();
   };
 
+  //display edit form (for insert and udpate)
   openEditForm() {
     this.showUserEditForm = true;
     setTimeout(() => { $("#firstName").focus(); }, 500);
   };
   
+  //delete a user
   async delete() {
     if (this.user) {
       await this.users.delete(this.user);
@@ -55,6 +60,7 @@ export class users {
     };
   };
 
+  //changing an selected user from teh grid
   changeActive(user) {
     this.user = user;
     this.save();
@@ -66,6 +72,7 @@ export class users {
     await this.getUsers();
   };
 
+  //get all the users
   async getUsers() {
     await this.users.getUsers();
   };

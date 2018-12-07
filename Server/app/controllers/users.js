@@ -16,7 +16,6 @@ var requireAuth = passport.authenticate('jwt', { session: false });
 module.exports = function (app, config) {
     app.use('/api', router);
 
-    //API calls below
     //Get All Users Async Request
     //Sample: http://localhost:5000/api/users/
     router.get('/users', requireAuth, asyncHandler(async (req, res) => {

@@ -28,6 +28,7 @@ export class Helpticket {
         console.log('finished getting all help tickets');
     };
 
+    //get all content records to show
     async getHelpTicketsContents(inticketid) {
         console.log('getting all contents for a specific help ticket id');
         let url = this.HELP_TICKETCONTENT_SERVICE + '/' + inticketid;
@@ -41,6 +42,7 @@ export class Helpticket {
         console.log('finished getting all content for  help ticket = ' + inticketid);
     };
 
+    //save both ticket and content (for both insert and update)
     async saveHelpticketAndContent(helpticket) {
         console.log("inside tsave ticket and content");
         let serverResponse;
@@ -56,6 +58,7 @@ export class Helpticket {
         };
     };
 
+    //delete
     async deleteHelpticket(inhelpticket) {
         console.log("delete help tickets and contents ");
         let serverResponse;
