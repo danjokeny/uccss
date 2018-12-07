@@ -41,11 +41,11 @@ export class Helpticket {
         console.log('finished getting all content for  help ticket = ' + inticketid);
     };
 
-    async saveHelpticket(helpticket) {
-        console.log("inside the help ticket object.js file");
+    async saveHelpticketAndContent(helpticket) {
+        console.log("inside tsave ticket and content");
         let serverResponse;
         if (helpticket) {
-            if (helpticket._id) {
+            if (helpticket.helpTicket._id) {
                 console.log('put update')
                 serverResponse = await this.data.put(helpticket, this.HELP_TICKET_SERVICE);
             } else {

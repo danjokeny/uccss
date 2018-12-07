@@ -18,11 +18,13 @@ export class helptickets {
         await this.helptickets.getHelpTickets(this.userObj);
     };
 
-    //pre-populate form for adding a new help ticket
+    //pre-populate form for adding a new help ticket and a new content row
     newHelpTicket() {
-        console.log('loading a new editForm')
+        //intialize
         this.helpticket = "";
         helptickets.helpticketscontentArray = [];
+
+        //prepopulate helpticket
         this.helpticket = {
             Title: "",
             PersonID: this.userObj,
@@ -30,6 +32,7 @@ export class helptickets {
             Status: 'new'
         };
 
+        //prepopulate content
         this.helpticketcontent = {
             Content: "",
             PersonID: "",
@@ -39,13 +42,18 @@ export class helptickets {
                 OriginalFileName: ""
             }
         };
+
+        //push +1 empty row into array
         helptickets.helpticketscontentArray.push(this.helpticketcontent)
+
+        //diaply the form
         this.showEditForm();
     };
 
+    /* do i need this?
     newContent () {
         console.log('how do i add to content?')
-    };
+    };*/
 
 
     //Show the edit form, and set focus on title
@@ -54,7 +62,7 @@ export class helptickets {
         setTimeout(() => { $("#Title").focus(); }, 500);
     };
 
-    //go back to the grid 
+    //go back to the grid, and reset the array to null
     back() {
         helptickets.helpticketscontentArray = [];
         this.showHelpTicketEditForm = false;
@@ -62,43 +70,41 @@ export class helptickets {
 
     //edit a ticket from the grid
     async editHelpTicket(helpticket) {
-        console.log('trying to edit a ticket row')
+        //set the ticket to row
         this.helpticket = helpticket;
+
+        //set the content to blank (to allow add new content)
         this.HelpTicketContent = {
             personId: this.userObj._id,
-            content: "enter comments/content here"
+            content: ""
         };
 
+        //get all the existing contents to display as browse
         await this.helptickets.getHelpTicketsContents(helpticket._id)
+
+        //display the form
         this.showEditForm();
     };
 
     //save either a insert, or an update
     async save() {
-        console.log('trying to save both content and ticket')
-        console.log(' this.helpticket Title=' + this.helpticket.Title)
-        console.log(' this.helpticket status=' + this.helpticket.Status)
-        console.log(' this.helpticket person=' + this.helpticket.PersonID)
-        console.log(' this.helpticket owner=' + this.helpticket.OwnerID)
-        console.log(' this.helpticketcontent.content=' + this.helpticketcontent.Content)
-        console.log(' this.helpticketcontent person=' + this.helpticketcontent.PersonID)
-        console.log(' this.helpticketcontent helpTicketId=' + this.helpticketcontent.helpTicketId)
-        
-
+        //check if both ticket and content should be saved
         if (this.helpticket && this.helpticket.Title
-            && this.helpticketcontent && this.helpticketcontent.Content
-        ) {
+            && this.helpticketcontent && this.helpticketcontent.Content) {
+            //check if person editing is admin/staff, if so, set owner id
             if (this.userObj.role !== 'user') {
                 console.log('set owner id')
                 this.helpticket.OwnerID = this.userObj._id;
             };
-            //let helpTicket = this.helpticket;
+            //combine ticket and content            
             let helpTicket = { helpTicket: this.helpticket, content: this.helpticketcontent };
-
-            await this.helptickets.saveHelpticket(helpTicket);
-            await this.helptickets.getHelpTickets(this.userObj);
-            this.back();
+            //save help ticket & content both
+            await this.helptickets.saveHelpticketAndContent(helpTicket);
         };
+        //Get all tickets for grid
+        await this.helptickets.getHelpTickets(this.userObj);
+        //go back to grid from the edit form
+        this.back();
         console.log('end of save')
     };
 

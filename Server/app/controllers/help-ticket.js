@@ -130,14 +130,32 @@ module.exports = function (app, config) {
     }));*/
 
     router.put('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
+        
         logger.log('info', 'Updating HelpTicket & HekpTicketConent');
-        await HelpTicket.findOneAndUpdate({ _id: req.body.helpticket._id }, req.body.helpticket, { new: true })
+        logger.log('info', '======================================');
+        
+        var helpTicket = new HelpTicket(req.body.helpTicket);
+        var helpTicketContent = new HelpTicketContent(req.body.content);
+
+        logger.log('info', 'Pre populate helpTicket = ' + helpTicket);
+        logger.log('info', 'pre populate helpTicketContent = ' + helpTicketContent);
+
+        helpTicketContent.helpTicketId = helpTicket._id
+        logger.log('info', 'helpTicketContent.helpTicketId =' + helpTicketContent.helpTicketId);
+
+        helpTicketContent.PersonID = helpTicket.PersonID
+        logger.log('info', 'helpTicketContent.PersonID =' + helpTicketContent.PersonID);
+
+        logger.log('info', '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        logger.log('info', 'intent to insert row for  content = ' + helpTicketContent);
+
+
+
+        await HelpTicket.findOneAndUpdate({ _id: helpTicket._id }, helpTicket, { new: true })
             .then(result => {
-                if (req.body.content) {
-                    req.body.content.helpticketId = result._id;
-                    var helpticketcontent = new HelpTicketContent(req.body.content);
-                    helpticketcontent.save()
-                        .then(content => {
+                if (helpTicketContent) {
+                    helpTicketContent.save()
+                        .then(result => {
                             res.status(201).json(result);
                         })
                 } else {
@@ -195,6 +213,9 @@ module.exports = function (app, config) {
             }
         }
     */
+
+    //definitely need this one
+
     //router.post('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
     router.post('/HelpTicketContent', asyncHandler(async (req, res) => {
         logger.log('info', 'Creating helpTicket Async Post');
@@ -271,6 +292,8 @@ module.exports = function (app, config) {
             res.status(200).json(result);
         });
     }));*/
+
+
 
     //Update existing helpticket row with json passed in raw body
     //Sample:http://localhost:5000/api/HelpTicketContent/
