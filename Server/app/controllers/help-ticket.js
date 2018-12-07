@@ -134,7 +134,6 @@ module.exports = function (app, config) {
 
         await query.exec().then(result => {
             console.log(result);
-            res.status(200).json(result);
         });
 
         await query.exec().then(result => {
@@ -143,9 +142,9 @@ module.exports = function (app, config) {
             query.where('helpTicketId').eq(req.params.id);
             query.exec().then(result => {
                 console.log(result);
-                res.status(200).json(result);
             });
         });
+        res.status(200).json(result);
     }));
 
 
