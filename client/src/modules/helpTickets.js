@@ -28,7 +28,7 @@ export class helptickets {
         this.helpticket = {
             Title: "",
             PersonID: this.userObj,
-            OwnerID: "a1a1a1a1a1a1a1a1a1",
+            OwnerID: this.userObj,
             Status: 'new'
         };
 

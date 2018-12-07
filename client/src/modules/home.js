@@ -5,7 +5,8 @@ import {Router} from 'aurelia-router';
 export class Home {
   constructor(router) {
 	this.router = router;
-          this.message = 'This is my home page';
+          this.message = 'HelpMe - Ticket Application Website!';
+          this.message2 = 'Thank you for logging in ';
   };
 
 };

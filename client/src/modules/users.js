@@ -9,6 +9,7 @@ export class users {
     this.router = router;
     this.users = users;
     this.message = 'All Users, Roles, and Active Status';
+    this.message2 = '(Admin access only)';
     this.showUserEditForm = false;
   };
 

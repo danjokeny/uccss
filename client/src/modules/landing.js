@@ -6,7 +6,8 @@ import { Router } from 'aurelia-router';
 export class Landing {
     constructor(router) {
         this.router = router;
-        this.message = 'This is my Landing page';
+        this.message = 'HelpMe - Ticket Application Website!';
+        this.message2 = 'Please log in';
     };
 
 };

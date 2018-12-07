@@ -30,6 +30,7 @@ export class NavBar {
                 sessionStorage.setItem("userObj", JSON.stringify(this.userObj));
                 this.loginError = "";
                 this.isAuthenticated = this.auth.isAuthenticated();
+                this.loginError = "Welcome " + this.userObj.fname + "!";
                 this.router.navigate('home');
             })
             .catch(error => {
@@ -42,10 +43,12 @@ export class NavBar {
 
     //remove user object from session object, and set isAuthenticated to false
     logout() {
-        if (this.userObj) this.auth.logout(this.userObj.email);
-        sessionStorage.removeItem('user');
-        this.isAuthenticated = this.auth.isAuthenticated();
-        this.auth.logout();
+        if (this.userObj) {
+            this.auth.logout(this.userObj.email);
+            sessionStorage.removeItem('user');
+            this.isAuthenticated = this.auth.isAuthenticated();
+            this.auth.logout();
+        };
     };
 
     //loading nav bar, set auth to false
@@ -57,7 +60,7 @@ export class NavBar {
     //bind lifecycle method to initialize the isAuthenticated
     bind() {
         this.isAuthenticated = this.auth.isAuthenticated();
-        console.log('authenticated flag=' + this.isAuthenticated)
+        console.log('authenticated flag =' + this.isAuthenticated);
     }
 
 };

@@ -1,0 +1,30 @@
+* {     font-family:  Helvetica;
+}
+
+h1 {
+    color: blue;
+    text-align: center;
+  }
+
+h3 {
+    color: red;
+    text-align: center;
+ }
+
+ body {
+    background-color: lightblue;
+  }
+
+  small_img {
+    height:"50px"; width:"50px"; 
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  img {
+    height:"50%"; width:"50%"; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }

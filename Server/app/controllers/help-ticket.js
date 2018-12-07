@@ -22,8 +22,10 @@ module.exports = function (app, config) {
         logger.log('info', '***************************************');
         logger.log('info', 'Creating HelpTicket & HelpTicektContent');
 
-        var helpTicket = new HelpTicket(req.body.helpTicket);
-        var helpTicketContent = new HelpTicketContent(req.body.content);
+        var helpTicket = "";
+        var helpTicketContent = "";
+        helpTicket = new HelpTicket(req.body.helpTicket);
+        helpTicketContent = new HelpTicketContent(req.body.content);
 
         logger.log('info', 'Creating helpTicket = ' + helpTicket);
         logger.log('info', 'Creating helpTicketContent = ' + helpTicketContent);
