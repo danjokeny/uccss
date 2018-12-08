@@ -20,16 +20,21 @@ module.exports = function (app, config) {
     //post route to allow insert of both tickets and content
     router.post('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', '***************************************');
-        logger.log('info', 'Creating HelpTicket & HelpTicektContent');
+        logger.log('info', 'Creating HelpTicket & HelpTicketContent');
 
+        //initialize
         var helpTicket = "";
         var helpTicketContent = "";
+
+        //set vars to passed body content
         helpTicket = new HelpTicket(req.body.helpTicket);
         helpTicketContent = new HelpTicketContent(req.body.content);
 
+        //log call 
         logger.log('info', 'Creating helpTicket = ' + helpTicket);
         logger.log('info', 'Creating helpTicketContent = ' + helpTicketContent);
 
+        //perform the db insert
         await helpTicket.save()
             .then(result => {
                 logger.log('info', 'inside save helpticket');
@@ -79,7 +84,7 @@ module.exports = function (app, config) {
         });
     }));
 
-    //Get specific helpTickets Request 
+    //Get a specific helpTickets Request by passing id
     //Sample: http://localhost:5000/api/helpTickets/5c037760a7bb2fb12ca389b8
     router.get('/helpTickets/:id', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Get specific helpTickets by id =  %s', req.params.id);
@@ -93,26 +98,34 @@ module.exports = function (app, config) {
         })
     }));
 
+    //Get all helptickets for a specific user only
+    //Sample: http://localhost:5000//api/helptickets/user/5c04c36a9a5749f0f4cd9207
+    router.get('/helpTickets/user/:id', requireAuth, asyncHandler(async (req, res) => {
+        logger.log('info', 'Get all helpTickets for specific user id =  %s', req.params.id);
+        
+        //setup query for getting only tickets for this PersonID id
+        let query = HelpTicket.find();
+        query.where('PersonID').eq(req.params.id);
+        query.populate({ path: 'PersonID', model: 'User', select: 'lname fname ' })
+        query.populate({ path: 'OwnerID', model: 'User', select: 'lname fname ' });
+
+        //execute the query
+        await query.exec().then(result => {
+            console.log(result);
+            res.status(200).json(result);
+        })
+    }));
+
     //update (PUT) request for both ticket and content
     router.put('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
-        
-        logger.log('info', 'Updating HelpTicket & HekpTicketConent');
-        logger.log('info', '======================================');
-        
+                
         var helpTicket = new HelpTicket(req.body.helpTicket);
         var helpTicketContent = new HelpTicketContent(req.body.content);
-
-        logger.log('info', 'Pre populate helpTicket = ' + helpTicket);
-        logger.log('info', 'pre populate helpTicketContent = ' + helpTicketContent);
 
         helpTicketContent.helpTicketId = helpTicket._id
         logger.log('info', 'helpTicketContent.helpTicketId =' + helpTicketContent.helpTicketId);
 
         helpTicketContent.PersonID = helpTicket.PersonID
-        logger.log('info', 'helpTicketContent.PersonID =' + helpTicketContent.PersonID);
-
-        logger.log('info', '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        logger.log('info', 'intent to insert row for  content = ' + helpTicketContent);
 
         await HelpTicket.findOneAndUpdate({ _id: helpTicket._id }, helpTicket, { new: true })
             .then(result => {
@@ -134,10 +147,12 @@ module.exports = function (app, config) {
         let query = HelpTicket.remove();
         query.where('_id').eq(req.params.id);
 
+        //delete the help ticket 
         await query.exec().then(result => {
             console.log(result);
         });
 
+        //delete all the contents for the helpticket
         await query.exec().then(result => {
             console.log(result);
             query = HelpTicketContent.remove()

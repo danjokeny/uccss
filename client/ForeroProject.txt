@@ -11,7 +11,6 @@ https://github.com/danjokeny/uccss
 
 stuff to add still
 1. adding a file
-2. only show tickets for specific user
 3. clean up console logs
 4. add comments
 
@@ -20,9 +19,6 @@ content not being initialized somewhere
 cannot close without saving content?
 cannot add a ticket without content
 logout?
-nav bar
+nav bar??
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        

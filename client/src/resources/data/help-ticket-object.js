@@ -16,6 +16,7 @@ export class Helpticket {
         console.log('getting all help tickets');
         let url = this.HELP_TICKET_SERVICE;
         if (userObj.role == 'user') {
+            url += '/user/' + userObj._id;
             console.log('need a new route here for ' + url + '/user/' + userObj._id);
             //    url += '/user/' + userObj._id;
         };

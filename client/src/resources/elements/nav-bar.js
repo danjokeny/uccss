@@ -54,13 +54,11 @@ export class NavBar {
     //loading nav bar, set auth to false
     async activate() {
         this.isAuthenticated = false;
-        console.log('authenticated flag=' + this.isAuthenticated)
     };
 
     //bind lifecycle method to initialize the isAuthenticated
     bind() {
         this.isAuthenticated = this.auth.isAuthenticated();
-        console.log('authenticated flag =' + this.isAuthenticated);
     }
 
 };
