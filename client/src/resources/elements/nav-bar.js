@@ -8,7 +8,7 @@ export class NavBar {
     constructor(router, auth) {
         this.router = router;
         this.auth = auth;
-        this.loginError = '';
+        this.loginMessage = '';
 
     };
 
@@ -30,13 +30,13 @@ export class NavBar {
                 sessionStorage.setItem("userObj", JSON.stringify(this.userObj));
                 this.loginError = "";
                 this.isAuthenticated = this.auth.isAuthenticated();
-                this.loginError = "Welcome " + this.userObj.fname + "!";
+                this.loginMessage = "Welcome " + this.userObj.fname + "!";
                 this.router.navigate('home');
             })
             .catch(error => {
                 console.log(error);
                 this.authenticated = false;
-                this.loginError = "Invalid credentials.";
+                this.loginMessage = "Invalid credentials.";
             });
             console.log('authenticated flag=' + this.isAuthenticated)
     };

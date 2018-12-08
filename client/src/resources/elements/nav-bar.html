@@ -1,10 +1,14 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">HelpMeWebsite!</a>
-        <span show.bind="loginError" style="color:white;margin-left: 10px;">
-            ${loginError}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <span show.bind="loginMessage" style="color:white;margin-left: 10px;">
+            ${loginMessage}
         </span>
-        
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <form class="form-inline" show.bind="!isAuthenticated">
                 <div class="form-group mb-2">
@@ -17,7 +21,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary mb-2" click.trigger="login()">Login</button>
                 <span show.bind="loginError" style="color:white;margin-left: 10px;">
-                    ${loginError}
+                    ${loginMessage}
                 </span>
             </form>
         </div>

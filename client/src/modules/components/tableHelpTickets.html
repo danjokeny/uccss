@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-10">
-                <table class="table table-bordered">
+                <table class="table table-bordered" >
                     <thead class="thead">
                         <tr>
                             <th colspan="4">
@@ -10,15 +10,15 @@
                                 <span click.trigger="getHelpTickets()" style="margin-left:5px;"><i data-feather="refresh-cw"></i></span>
                             </th>
                         </tr>
-                        <tr class="thead-light">
-                            <th scope="col">Title</th>
+                        <tr class="thead-light" style="border-color: red">
+                            <th scope="col" >Title</th>
                             <th scope="col">Status</th>
                             <th scope="col">Person Name</th>
                             <th scope="col">Owner Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr click.trigger="editHelpTicket(helpticket)" repeat.for="helpticket of helptickets.helpticketsArray">
+                        <tr  click.trigger="editHelpTicket(helpticket)" repeat.for="helpticket of helptickets.helpticketsArray">
                             <td>${helpticket.Title}</td>
                             <td>${helpticket.Status}</td>
                             <td>${helpticket.PersonID.fname}
