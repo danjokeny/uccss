@@ -9,6 +9,7 @@ export class Helpticket {
         this.data = data;
         this.HELP_TICKET_SERVICE = 'helptickets';
         this.HELP_TICKETCONTENT_SERVICE = '/HelpTicketContent/helpTicket';
+        this.HELP_FILEUPLOAD_SERVICE = 'HelpTicketContent/helpTicket';
     };
 
     //get all help tickets --eventually for a specific user
@@ -68,4 +69,10 @@ export class Helpticket {
         };
         return serverResponse;
     };
+
+    //upload file
+    async uploadFile(files, id) {
+        await this.data.uploadFiles(files, this.HELP_FILEUPLOAD_SERVICE + "/upload/" + id );
+    }
+    
 };

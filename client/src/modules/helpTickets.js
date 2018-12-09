@@ -22,7 +22,6 @@ export class helptickets {
     newHelpTicket() {
         //intialize
         this.helpticket = "";
-        helptickets.helpticketscontentArray = [];
 
         //prepopulate helpticket
         this.helpticket = {
@@ -43,10 +42,7 @@ export class helptickets {
             }
         };
 
-        //push +1 empty row into array
-        helptickets.helpticketscontentArray.push(this.helpticketcontent)
-
-        //diaply the form
+        //dispaly the form
         this.showEditForm();
     };
 
@@ -56,15 +52,17 @@ export class helptickets {
         setTimeout(() => { $("#Title").focus(); }, 500);
     };
 
-    //go back to the grid, and reset the array to null
+    //go back to the grid, clean up the file arrays
     back() {
-        helptickets.helpticketscontentArray = [];
+        this.filesToUpload = new Array();
+        this.files = new Array();
         this.showHelpTicketEditForm = false;
     };
 
     //edit a ticket from the grid
     async editHelpTicket(helpticket) {
         //set the ticket to row
+        this.helpticket = "";
         this.helpticket = helpticket;
 
         //set the content to blank (to allow add new content)
@@ -93,11 +91,19 @@ export class helptickets {
             //combine ticket and content            
             let helpTicket = { helpTicket: this.helpticket, content: this.helpticketcontent };
             //save help ticket & content both
-            await this.helptickets.saveHelpticketAndContent(helpTicket);
+            let serverResponse = await this.helptickets.saveHelpticketAndContent(helpTicket);
+            if (this.filesToUpload && this.filesToUpload.length > 0) {
+                this.helptickets.uploadFile(this.filesToUpload, serverResponse.contentID);
+            }
+            
+            await this.helptickets.getHelpTickets(this.userObj);
+            this.back();
+
         };
 
         //Get all tickets for grid
         await this.helptickets.getHelpTickets(this.userObj);
+
         //go back to grid from the edit form
         this.back();
     };
@@ -110,6 +116,19 @@ export class helptickets {
             this.back();
         };
     };
+
+    //builds the list of files to add to content 
+    changeFiles() {
+        this.filesToUpload = this.filesToUpload ? this.filesToUpload : new Array();
+        for (var i = 0; i < this.files.length; i++) {
+            let addFile = true;
+            this.filesToUpload.forEach(item => {
+                if (item.name === this.files[i].name) addFile = false;
+            })
+            if (addFile) this.filesToUpload.push(this.files[i]);
+        }
+    }
+
 
     //lifecycle method for loading icon
     attached() {

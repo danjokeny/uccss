@@ -7,10 +7,34 @@ var express = require('express'),
     asyncHandler = require('express-async-handler'),
     HelpTicketContent = mongoose.model('HelpTicketContent'),
     HelpTicket = mongoose.model('HelpTicket'),
-    //passportService = require('../../config/passport'),
+    multer = require('multer'),
+    mkdirp = require('mkdirp'),
     passport = require('passport');
 
 var requireAuth = passport.authenticate('jwt', { session: false });
+
+//save file middleware
+var upload = multer({ storage: storage });
+
+//configure path and filename use for strage
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        var path = config.uploads + '/helpTickets';
+        mkdirp(path, function (err) {
+            if (err) {
+                res.status(500).json(err);
+            } else {
+                cb(null, path);
+            }
+        });
+    },
+    filename: function (req, file, cb) {
+        file.fileName = file.originalname;
+        cb(null, file.fieldname + '-' + Date.now());
+    }
+});
+
+
 
 module.exports = function (app, config) {
     app.use('/api', router);
@@ -49,9 +73,11 @@ module.exports = function (app, config) {
                 logger.log('info', 'inserting row for  content = ' + helpTicketContent);
 
                 helpTicketContent.save()
-                    .then(result => {
-                        logger.log('info', 'inside save content');
-                        res.status(201).json(result);
+                    .then(content => {
+                        logger.log('info', 'inside post save - return content id');
+                        //res.status(201).json(result);
+                        res.status(201).json({contentID: content._id});
+
                     })
             })
     }));
@@ -102,7 +128,7 @@ module.exports = function (app, config) {
     //Sample: http://localhost:5000//api/helptickets/user/5c04c36a9a5749f0f4cd9207
     router.get('/helpTickets/user/:id', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'Get all helpTickets for specific user id =  %s', req.params.id);
-        
+
         //setup query for getting only tickets for this PersonID id
         let query = HelpTicket.find();
         query.where('PersonID').eq(req.params.id);
@@ -118,7 +144,8 @@ module.exports = function (app, config) {
 
     //update (PUT) request for both ticket and content
     router.put('/helpTickets', requireAuth, asyncHandler(async (req, res) => {
-                
+        logger.log('info', '===================update PUT request for both ticket and content');
+
         var helpTicket = new HelpTicket(req.body.helpTicket);
         var helpTicketContent = new HelpTicketContent(req.body.content);
 
@@ -130,12 +157,16 @@ module.exports = function (app, config) {
         await HelpTicket.findOneAndUpdate({ _id: helpTicket._id }, helpTicket, { new: true })
             .then(result => {
                 if (helpTicketContent) {
+                    req.body.content.helpTicketId = result._id;
                     helpTicketContent.save()
-                        .then(result => {
-                            res.status(201).json(result);
+                        .then(content => {
+                            //res.status(201).json(result);
+                            res.status(201).json({contentID: content._id});
                         })
                 } else {
                     res.status(200).json(result);
+
+
                 }
             })
     }));
@@ -259,4 +290,20 @@ module.exports = function (app, config) {
             })
     }));
 
+    //upload a file
+    router.post('/HelpTicketContent/helpTicket/upload/:id', upload.any(), asyncHandler(async (req, res) => {
+        logger.log('info', '********************Uploading files');
+        await HelpTicketContent.findById(req.params.id).then(result => {
+            for (var i = 0, x = req.files.length; i < x; i++) {
+                var file = {
+                    OriginalFileName: req.files[i].originalname,
+                    FileName: req.files[i].filename
+                };
+                result.file = file;
+            }
+            result.save().then(result => {
+                res.status(200).json(result);
+            });
+        })
+    }));
 };

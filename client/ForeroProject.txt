@@ -9,10 +9,12 @@ GitHub repository
 https://github.com/danjokeny/uccss
 
 
-stuff to add still
-1. adding a file
+left to do
+1. filename not populated upon file upload
+2. url not working on ticket (due to #1)
 3. clean up console logs
-4. add comments
+4. add comments to code
+
 
 Known Bugs
 content not being initialized somewhere

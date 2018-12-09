@@ -18,15 +18,30 @@
 
                     <div class="row-md">
                         <label for="Status">Status</label>
-                        <select value.bind="helpticket.Status" class="form-control" 
-                            id="Status" readonly.bind="userObj.role ==='user'">
+                        <select value.bind="helpticket.Status" class="form-control" id="Status" readonly.bind="userObj.role ==='user'">
                             <option value="new">new</option>
                             <option value="inProcess">inProcess</option>
                             <option value="closed">closed</option>
                         </select>
                         <div class="form-group" style="margin-top:20px;">
                             <label for="content">Add content description</label>
-                            <textarea value.bind="helpticketcontent.Content" class="form-control" rows='5'></textarea>
+                            <textarea value.bind="helpticketcontent.Content" class="form-control" rows='3'></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <label class="btn btn-primary">
+                                    Browse for files&hellip;
+                                    <input type="file" style="display: none;" change.delegate="changeFiles()"
+                                        files.bind="files">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul>
+                                <li repeat.for="file of filesToUpload" class="list-group-item">${file.name}<span
+                                        click.delegate="removeFile($index)" class="pull-right">
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -71,11 +86,25 @@
                     </div>
 
                     <div class="card" style="padding: 3px; margin-top: 15px; " repeat.for="Content of helptickets.helpticketscontentArray">
-                        <div class="row" style="padding: 3px;">
-                            <div class="col-9" style="margin-bottom: 15px; 
-                            border-left-style: solid;border-left-width: 1px;"
-                                value.bind="helpTicketContent.Content">
-                                ${Content.Content}
+                        <div class="card-body">
+                            <div class="row" style="padding: 3px;">
+                                <div class="col-6">
+                                    <span innerhtml.bind="Content.DateCreated | formatDate "></span><br />
+                                    ${Content.PersonID.fname} ${Content.PersonID.lname}
+                                </div>
+
+                                <div class="col-6" style="margin-bottom: 15px; 
+                                border-left-style: solid;border-left-width: 1px;"
+                                    value.bind="Content.Content">
+                                    ${Content.Content}
+                                </div>
+
+                                <div>
+                                    <a href="http://localhost:5000/uploadedFiles/helpTickets/${content.file.fileName}"
+                                        target="_blank">${content.file.originalFileName}</a>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

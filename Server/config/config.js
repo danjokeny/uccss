@@ -10,14 +10,16 @@ var config = {
                    app: {      name: 'UCCSS'    },    
                    port: 5000,  
                    db: 'mongodb://127.0.0.1/helpMe-dev',
-                   secret: "StarWars1977StarTrekJamesBond"
+                   secret: "StarWars1977StarTrekJamesBond",
+                   uploads: './public/uploadedFiles' 
         },  
         production: {    
                      root: rootPath,    
                      app: {      name: 'UCCSS'    },    
                      port: 80, 
                      db: 'mongodb://127.0.0.1/helpMe' },
-                     secret: "StarWars1977StarTrekJamesBond"
+                     secret: "StarWars1977StarTrekJamesBond",
+                     uploads: './public/uploadedFiles' 
          };
 
 module.exports = config[env];

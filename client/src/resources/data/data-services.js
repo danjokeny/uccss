@@ -92,4 +92,25 @@ export class DataServices {
                 return error;
             });
     }
-}
+
+    //upload a file
+    uploadFiles(files, url) {
+        let formData = new FormData();
+        files.forEach((item, index) => {
+            formData.append("file" + index, item);
+        })
+        return this.httpClient
+            .fetch(url, {
+                method: 'post',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(object => {
+                return object;
+            })
+            .catch(error => {
+                return error;
+            });
+    };
+
+};
