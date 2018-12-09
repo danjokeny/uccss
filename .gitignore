@@ -1,6 +1,7 @@
 Server/node_modules/*
 Server/log/*
-Server/public/*
+Server/public/scripts/*
+Server/public/uploadedFiles/*
 client/node_modules
 client/.vscode
 client/aurelia_project/environments
