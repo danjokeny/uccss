@@ -10,17 +10,17 @@ https://github.com/danjokeny/uccss
 
 
 left to do
-1. filename not populated upon file upload
-2. url not working on ticket (due to #1)
-3. clean up console logs
-4. add comments to code
+1. clean up console logs
+2. add comments to code
 
 
 Known Bugs
-content not being initialized somewhere
-cannot close without saving content?
-cannot add a ticket without content
-logout?
-nav bar??
+1. file being saved is undefined + the date/time -- should be original file name _ date/time
+2. content not being initialized somewhere
+3. cannot close without saving content?
+4. cannot add a ticket without content
+5. logout?
+6. nav bar??
+7. when admin adds a comment, it still logs the original user on the content record
 
         

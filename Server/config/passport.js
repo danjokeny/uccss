@@ -30,7 +30,7 @@ var localLogin = new localStrategy(localOptions, function (email, password, next
 
 generateToken = function (user) {
     return jwt.sign(user, config.secret, {
-        expiresIn: 30000
+        expiresIn: 10000
     });
 };
 

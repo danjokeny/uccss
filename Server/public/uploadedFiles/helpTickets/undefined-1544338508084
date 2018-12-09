@@ -1,0 +1,127 @@
+
+//bus adm 746 topics in technology
+//mobile apps
+//danny forero
+//quiz - grain.js
+/*Grain is an idividual grain in a recipe.  
+The module should have a name, the weight of the grain used 
+and the maxPPG for the type of grain.  It should have a function 
+that  returns the potential sugars the grain contributes which 
+is equal to the weight times the maxPPG.
+*/
+function Grain(inName, inWeight,inMaxPPG) {
+	this.Name = inName,
+    this.Weight = inWeight,
+    this.maxPPG = inMaxPPG,
+	this.PotentialSugars = function() {
+		var wkSUgars = 0
+		wkSUgars = this.Weight * this.maxPPG
+		console.log(wkSUgars)
+		return wkSUgars
+	}	
+} ;
+
+//module.exports
+module.exports = Grain;
+
+
+
+======
+//bus adm 746 topics in technology
+//mobile apps
+//danny forero
+//quiz - recipe.js
+/*
+Recipe contains the array of grains.  
+It has a name, volume (amount of beer produced) and functions to add a grain, 
+calculate the total weight of grain and calculate the expected gravity.  
+Expected gravity can be calculated by adding up the potential sugars 
+contributed by all the grains and dividing by the volume.
+*/
+function myRecipe(inRecipe, inVolume){
+    let foo = [];
+    foo.RecipeName = inRecipe,
+    foo.Volume = inVolume, 
+    foo.Grain=[],
+    foo.addGrain = function(inGrain) {
+            foo.Grain.push(inGrain);
+    }   ;
+    foo.calcGrainWeight = function() {
+    var wkTotal = 0;
+
+    for(var i = 0; i < foo.Grain.length ; i++) {
+        wkTotal = wkTotal + foo.Grain[i].Weight;
+    }
+    return wkTotal
+}	  
+    foo.calcGravity = function() {
+    var wkTotal = 0;
+    for(var i = 0; i < foo.Grain.length ; i++) {
+        wkTotal = wkTotal + foo.Grain[i].PotentialSugars;
+        console.log(wkTotal)
+    }
+    return wkTotal
+}	  
+return foo;
+};
+
+module.exports = myRecipe;
+
+    
+=========================
+//mobile apps
+//danny forero
+//quiz Batch.js -- coontrolling code
+
+console.log('begin quiz Batch');
+
+//Import Grain and recipes files
+let myGrain = require('./quizGrain');
+let myRecipe = require('./quizRecipe');
+console.log('import files');
+
+//Instantiate my first beer recipe
+var myBeer = new myRecipe();
+myBeer.RecipeName ='drifter pale ale'
+myBeer.Volume = 5;
+
+var wkGrain = new myGrain('pale malt', 4.5, 37);
+
+myBeer.addGrain(wkGrain);
+var wkGrain = new myGrain('caramel crystal malt', 0.375, 35);
+myBeer.addGrain(wkGrain);
+
+//console.log(myBeer)
+console.log('my first beer is '+ myBeer.RecipeName);
+console.log('its volume is '+ myBeer.Volume);
+//loop thru  array printing attributesfor each array item
+for(var i = 0; i < myBeer.Grain.length ; i++) {
+    console.log('myBeer.grain['+i+'] is ' + myBeer.Grain[i].Name);
+    console.log('myBeer.weight['+i+'] is ' + myBeer.Grain[i].Weight);
+    console.log('myBeer.maxppg['+i+'] is ' + myBeer.Grain[i].maxPPG);
+    var wtTotal = myBeer.Grain[i].PotentialSugars();  
+    console.log( 'myBeer['+i+'].potential sugars  = ' +  wtTotal );  
+};
+var totWeight = myBeer.calcGrainWeight();
+console.log('this beers total grain weight is '+totWeight)  
+
+var totGravity = myBeer.calcGravity();
+console.log('this beers total gravity is '+ totGravity)  
+console.log('end quiz Batch');
+
+
+
+======
+
+    foo.calcGravity = function() {
+    var wkTotal = 0;
+    for(var i = 0; i < foo.Grain.length ; i++) {
+        wkTotal = wkTotal + foo.Grain[i].PotentialSugars();
+wkTotal=wkTotal / foo.Volume
+        console.log(wkTotal)
+    }
+    return wkTotal
+}	
+
+
+

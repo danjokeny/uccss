@@ -19,7 +19,7 @@ module.exports = function (app, config) {
     //Get All Users Async Request
     //Sample: http://localhost:5000/api/users/
     router.get('/users', requireAuth, asyncHandler(async (req, res) => {
-        logger.log('info', 'Get all users Async Request');
+        logger.log('info', 'server route#1 - Get all users Async Request');
         let query = User.find();
         query.sort(req.query.order)
         await query.exec().then(result => {
@@ -30,7 +30,7 @@ module.exports = function (app, config) {
     //Get specific User id Request 
     //Sample: http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
     router.get('/users/:id',  requireAuth, asyncHandler(async (req, res) => {
-        logger.log('info', 'Get specific user by id =  %s', req.params.id);
+        logger.log('info', ' server route#2 - Get specific user by id =  %s', req.params.id);
         await User.findById(req.params.id).then(result => {
             res.status(200).json(result);
         })
@@ -46,7 +46,7 @@ module.exports = function (app, config) {
         "role" : "admin"
     }*/
     router.post('/users', requireAuth, asyncHandler(async (req, res) => {
-    logger.log('info', 'Creating user Async Post');
+    logger.log('info', 'server route#3 - Creating user Post insert');
     var user = new User(req.body);
     console.log(req.body);
     await user.save()
@@ -68,7 +68,7 @@ module.exports = function (app, config) {
         "__v": 0
     }*/
     router.put('/users', requireAuth, asyncHandler(async (req, res) => {
-        logger.log('info', 'Updating user');
+        logger.log('info', 'server route#4 - Updating user PUT');
         await User.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
             .then(result => {
                 res.status(200).json(result);
@@ -78,7 +78,7 @@ module.exports = function (app, config) {
     //Delete existing data
     //Sample:http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
     router.delete('/users/:id', requireAuth, asyncHandler(async (req, res) => {
-    logger.log('info', 'Deleting user id =  %s', req.params.id);
+    logger.log('info', 'server route#5 - Deleting user id =  %s', req.params.id);
     await User.remove({ _id: req.params.id })
         .then(result => {
             res.status(200).json(result);
@@ -92,7 +92,7 @@ module.exports = function (app, config) {
 
     }*/
     router.put('/users/password/:userId', requireAuth, function (req, res, next) {
-        logger.log('Update user ' + req.params.userId, 'verbose');
+        logger.log('server route#6 - Update user password ' + req.params.userId, 'verbose');
         User.findById(req.params.userId)
             .exec()
             .then(function (user) {
@@ -113,6 +113,5 @@ module.exports = function (app, config) {
     });
 
     router.route('/users/login').post(requireLogin, login);
-
 
 };
