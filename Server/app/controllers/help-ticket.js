@@ -20,6 +20,7 @@ var upload = multer({ storage: storage });
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         var path = config.uploads + '/helpTickets';
+        console.log('path =' + path);
         mkdirp(path, function (err) {
             if (err) {
                 res.status(500).json(err);
@@ -29,8 +30,10 @@ var storage = multer.diskStorage({
         });
     },
     filename: function (req, file, cb) {
-        file.fileName = file.originalname;
-        cb(null, file.fieldname + '-' + Date.now());
+        file.fileName  = file.originalname;
+        cb(null, file.fieldname  + '-' + Date.now());
+        console.log('file.fieldname = ' + file.fieldname);
+        console.log('cb = ' + cb)
     }
 });
 
@@ -76,7 +79,7 @@ module.exports = function (app, config) {
                     .then(content => {
                         logger.log('info', 'inside post save - return content id');
                         //res.status(201).json(result);
-                        res.status(201).json({contentID: content._id});
+                        res.status(201).json({ contentID: content._id });
 
                     })
             })
@@ -161,7 +164,7 @@ module.exports = function (app, config) {
                     helpTicketContent.save()
                         .then(content => {
                             //res.status(201).json(result);
-                            res.status(201).json({contentID: content._id});
+                            res.status(201).json({ contentID: content._id });
                         })
                 } else {
                     res.status(200).json(result);
@@ -294,16 +297,18 @@ module.exports = function (app, config) {
     router.post('/HelpTicketContent/helpTicket/upload/:id', upload.any(), asyncHandler(async (req, res) => {
         logger.log('info', '********************Uploading files');
         await HelpTicketContent.findById(req.params.id).then(result => {
-            for (var i = 0, x = req.files.length; i < x; i++) {
-                var file = {
-                    OriginalFileName: req.files[i].originalname,
-                    FileName: req.files[i].filename
-                };
-                result.file = file;
-            }
-            result.save().then(result => {
-                res.status(200).json(result);
-            });
-        })
+            console.log('files array length = ' + req.files.length);
+        for (var i = 0, x = req.files.length; i < x; i++) {
+            var file = {
+                OriginalFileName: req.files[i].originalname,
+                FileName: req.files[i].filename
+            };
+            console.log('file = ' + file)
+            result.file = file;
+        }
+        result.save().then(result => {
+            res.status(200).json(result);
+        });
+    })
     }));
 };

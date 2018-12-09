@@ -96,7 +96,7 @@ export class helptickets {
                 this.helptickets.uploadFile(this.filesToUpload, serverResponse.contentID);
             }
             
-            await this.helptickets.getHelpTickets(this.userObj);
+            //await this.helptickets.getHelpTickets(this.userObj);
             this.back();
 
         };
