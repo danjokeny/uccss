@@ -1,0 +1,22 @@
+Individual class project 
+Daniel Forero
+
+
+bus adm 810 web application development
+professor ross hightower
+
+GitHub repository
+https://github.com/danjokeny/uccss
+
+
+Known Bugs
+1. cannot save a ticket without saving content -- is this a bug? or as expected?
+2. logout functionality not working?  
+    -- security related message?  
+    -- perhaps a firewall issue due to work computer?  
+    -- test on a different laptop
+3. nav bar - after timeout of token, a admin loses the users menu.  
+    -- maybe due to logout now working properly?
+4. when admin adds a comment to a user ticket, it still logs the original user on the content record.
+
+        

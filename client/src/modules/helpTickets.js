@@ -22,7 +22,10 @@ export class helptickets {
     newHelpTicket() {
         //intialize
         this.helpticket = "";
-
+        this.filesToUpload = new Array();
+        this.files = new Array();
+        this.helpticketscontentArray = new Array();
+        
         //prepopulate helpticket
         this.helpticket = {
             Title: "",
@@ -56,20 +59,24 @@ export class helptickets {
     back() {
         this.filesToUpload = new Array();
         this.files = new Array();
+        this.helpticketscontentArray = new Array();
         this.showHelpTicketEditForm = false;
     };
 
     //edit a ticket from the grid
     async editHelpTicket(helpticket) {
-        //set the ticket to row
+        //initialize & set the ticket to row
         this.helpticket = "";
+        this.filesToUpload = new Array();
+        this.files = new Array();
+        this.helpticketscontentArray = new Array();
         this.helpticket = helpticket;
 
         //set the content to blank (to allow add new content)
-        /*this.HelpTicketContent = {
+        this.HelpTicketContent = {
             personId: this.userObj._id,
             content: ""
-        };*/
+        };
 
         this.helpticketcontent = {
             Content: "",

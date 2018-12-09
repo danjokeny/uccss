@@ -27,14 +27,14 @@ module.exports = function (app, config) {
         })
     }));
 
-    //Get specific User id Request 
+    /*Get specific User id Request -- this is not in use
     //Sample: http://localhost:5000/api/users/5bd080092c9c2a74ecf2ace2
     router.get('/users/:id',  requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', ' server route#2 - Get specific user by id =  %s', req.params.id);
         await User.findById(req.params.id).then(result => {
             res.status(200).json(result);
         })
-    }));
+    }));*/
 
     //create new user api Post request with json passed in raw body
     //Sample: http://localhost:5000/api/users

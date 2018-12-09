@@ -68,8 +68,8 @@ module.exports = function (app, config) {
             res.status(200).json(result);
         });
     }));
-
-    //Get a specific helpTickets Request by passing id
+ 
+    /*Get a specific helpTickets Request by passing id  - this is not in use
     //Sample: http://localhost:5000/api/helpTickets/5c037760a7bb2fb12ca389b8
     router.get('/helpTickets/:id', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'server ticket route#3 - Get specific helpTickets by id =  %s', req.params.id);
@@ -80,7 +80,7 @@ module.exports = function (app, config) {
         await query.exec().then(result => {
             res.status(200).json(result);
         })
-    }));
+    }));*/
 
     //Get all helptickets for a specific user only
     //Sample: http://localhost:5000//api/helptickets/user/5c04c36a9a5749f0f4cd9207
@@ -151,7 +151,7 @@ module.exports = function (app, config) {
     //HelpTicketContent Routes
 
 
-    //insert just a content record -- needed?
+    /*insert just a content record -- this is not in use
     router.post('/HelpTicketContent', asyncHandler(async (req, res) => {
         logger.log('info', 'server ticket route#7 - Creating helpTicket Async Post');
         var helpticketcontent = new HelpTicketContent(req.body);
@@ -160,9 +160,9 @@ module.exports = function (app, config) {
                 logger.log('info', 'Created helpticketcontent = ' + result);
                 res.status(201).json(result);
             })
-    }));
+    })); */
 
-    //do we need this?
+    /* this is not in use
     //Get All HelpTicketContent (check for Status parameter passed)
     //Sort on attribute passed
     //Sample: http://localhost:5000/api/HelpTicketContent/
@@ -178,7 +178,7 @@ module.exports = function (app, config) {
             console.log(result);
             res.status(200).json(result);
         });
-    }));
+    }));*/
 
 
     //Get HelpTicketContent for a specific help ticket content id
@@ -200,7 +200,7 @@ module.exports = function (app, config) {
     }));
 
 
-    //do we need this route???????
+    /* this is not in use
     //Get All HelpTicketContent (check for Status parameter passed)
     //Sort on attribute passed
     router.get('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
@@ -215,12 +215,11 @@ module.exports = function (app, config) {
             console.log(result);
             res.status(200).json(result);
         });
-    }));
+    }));*/
 
 
-
+    /* this is not in use
     //Update existing helpticket row with json passed in raw body
-    //do we need this route?
     router.put('/HelpTicketContent', requireAuth, asyncHandler(async (req, res) => {
         logger.log('info', 'server ticket route#11 - Updating HelpTicketContent');
         await HelpTicketContent.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true })
@@ -228,9 +227,9 @@ module.exports = function (app, config) {
                 logger.log('info', 'Updated HelpTicketContent =' + result);
                 res.status(200).json(result);
             })
-    }));
+    })); */
 
-    //do we need this route?
+    /*this is not in use
     //Delete existing HelpTicketContent
     //Sample:http://localhost:5000/api/HelpTicketContent/5c0377d0a7bb2fb12ca389bb
     router.delete('/HelpTicketContent/:id', requireAuth, asyncHandler(async (req, res) => {
@@ -240,7 +239,7 @@ module.exports = function (app, config) {
                 logger.log('info', 'Deleted HelpTicketContent = %s', req.params.id);
                 res.status(200).json(result);
             })
-    }));
+    }));*/
 
 
     //multer and mkdirp used for uploading files
@@ -257,8 +256,8 @@ module.exports = function (app, config) {
             });
         },
         filename: function (req, file, cb) {
-            file.fileName = file.OriginalFileName;
-            cb(null, file.fileName + '-' + Date.now());
+            file.fileName = file.originalname;
+            cb(null, file.fieldname + '-' + Date.now());
         }
     });
 

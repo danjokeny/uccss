@@ -22,11 +22,9 @@ export class DataServices {
                     request(request) {
                         var authHeader = 'Bearer ' + localStorage.getItem('aurelia_token')
                         request.headers.append('Authorization', authHeader);
-                        console.log('Requesting ${request.method} ${request.url}');
                         return request;
                     },
                     response(response) {
-                        console.log('Received ${response.status} ${response.url}');
                         return response;
                     }
                 });
@@ -97,7 +95,7 @@ export class DataServices {
     uploadFiles(files, url) {
         let formData = new FormData();
         files.forEach((item, index) => {
-            formData.append("file" + index, item);
+            formData.append(item.name + index, item);
         })
         return this.httpClient
             .fetch(url, {

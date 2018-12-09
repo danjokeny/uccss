@@ -12,9 +12,8 @@ export class Helpticket {
         this.HELP_FILEUPLOAD_SERVICE = 'HelpTicketContent/helpTicket';
     };
 
-    //get all help tickets --eventually for a specific user
+    //get all help tickets 
     async getHelpTickets(userObj) {
-        console.log('getting all help tickets');
         let url = this.HELP_TICKET_SERVICE;
         if (userObj.role == 'user') {
             url += '/user/' + userObj._id;
@@ -25,12 +24,10 @@ export class Helpticket {
         } else {
             this.helpticketsArray = [];
         };
-        console.log('finished getting all help tickets');
     };
 
     //get all content records to show
     async getHelpTicketsContents(inticketid) {
-        console.log('getting all contents for a specific help ticket id');
         let url = this.HELP_TICKETCONTENT_SERVICE + '/' + inticketid;
         let response = await this.data.get(url);
         if (!response.error) {
@@ -38,20 +35,15 @@ export class Helpticket {
         } else {
             this.helpticketscontentArray = [];
         };
-
-        console.log('finished getting all content for  help ticket = ' + inticketid);
     };
 
     //save both ticket and content (for both insert and update)
     async saveHelpticketAndContent(helpticket) {
-        console.log("inside tsave ticket and content");
         let serverResponse;
         if (helpticket) {
             if (helpticket.helpTicket._id) {
-                console.log('put update')
                 serverResponse = await this.data.put(helpticket, this.HELP_TICKET_SERVICE);
             } else {
-                console.log('post insert')
                 serverResponse = await this.data.post(helpticket, this.HELP_TICKET_SERVICE);
             };
             return serverResponse;
@@ -60,7 +52,6 @@ export class Helpticket {
 
     //delete
     async deleteHelpticket(inhelpticket) {
-        console.log("delete help tickets and contents ");
         let serverResponse;
         if (inhelpticket) {
             await this.data.delete(this.HELP_TICKET_SERVICE + '/' + inhelpticket)
