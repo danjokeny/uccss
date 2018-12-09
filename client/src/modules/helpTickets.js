@@ -66,13 +66,23 @@ export class helptickets {
         this.helpticket = helpticket;
 
         //set the content to blank (to allow add new content)
-        this.HelpTicketContent = {
+        /*this.HelpTicketContent = {
             personId: this.userObj._id,
             content: ""
+        };*/
+
+        this.helpticketcontent = {
+            Content: "",
+            PersonID: "",
+            helpTicketId: "",
+            file: {
+                FileName: "",
+                OriginalFileName: ""
+            }
         };
 
         //get all the existing contents to display as browse
-        await this.helptickets.getHelpTicketsContents(helpticket._id)
+        await this.helptickets.getHelpTicketsContents(helpticket._id);
 
         //display the form
         this.showEditForm();

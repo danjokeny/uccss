@@ -13,32 +13,6 @@ var express = require('express'),
 
 var requireAuth = passport.authenticate('jwt', { session: false });
 
-//save file middleware
-var upload = multer({ storage: storage });
-
-//configure path and filename use for strage
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        var path = config.uploads + '/helpTickets';
-        console.log('path =' + path);
-        mkdirp(path, function (err) {
-            if (err) {
-                res.status(500).json(err);
-            } else {
-                cb(null, path);
-            }
-        });
-    },
-    filename: function (req, file, cb) {
-        file.fileName  = file.originalname;
-        cb(null, file.fieldname  + '-' + Date.now());
-        console.log('file.fieldname = ' + file.fieldname);
-        console.log('cb = ' + cb)
-    }
-});
-
-
-
 module.exports = function (app, config) {
     app.use('/api', router);
 
@@ -293,17 +267,48 @@ module.exports = function (app, config) {
             })
     }));
 
+    
+    //multer and mkdirp used for uploading files
+    //configure path and filename use for strage
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            var path = config.uploads + '/helpTickets';
+            console.log('path =' + path);
+            mkdirp(path, function (err) {
+                if (err) {
+                    res.status(500).json(err);
+                } else {
+                    cb(null, path);
+                }
+            });
+        },
+        filename: function (req, file, cb) {
+            console.log('file.OriginalFileName = ' + file.OriginalFileName);
+            file.fileName  = file.OriginalFileName;
+            cb(null, file.fileName  + '-' + Date.now());
+            console.log('file.fileName = ' + file.fileName);
+            console.log('cb = ' + cb)
+        }
+    });
+
+    //save file middleware
+    var upload = multer({ storage: storage });
+
     //upload a file
     router.post('/HelpTicketContent/helpTicket/upload/:id', upload.any(), asyncHandler(async (req, res) => {
         logger.log('info', '********************Uploading files');
+        
+        //retrieve the the ticket content just added
         await HelpTicketContent.findById(req.params.id).then(result => {
-            console.log('files array length = ' + req.files.length);
+        console.log('files array length = ' + req.files.length);
+        
         for (var i = 0, x = req.files.length; i < x; i++) {
             var file = {
                 OriginalFileName: req.files[i].originalname,
                 FileName: req.files[i].filename
             };
-            console.log('file = ' + file)
+            console.log('OriginalFileName = ' + req.files[i].originalname)
+            console.log('FileName = ' + req.files[i].filename)
             result.file = file;
         }
         result.save().then(result => {
