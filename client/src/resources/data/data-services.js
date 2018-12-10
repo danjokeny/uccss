@@ -95,7 +95,8 @@ export class DataServices {
     uploadFiles(files, url) {
         let formData = new FormData();
         files.forEach((item, index) => {
-            formData.append(item.name + index, item);
+            //formData.append(item.name + index, item);
+            formData.append(item.name , item);
         })
         return this.httpClient
             .fetch(url, {

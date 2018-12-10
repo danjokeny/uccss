@@ -257,7 +257,13 @@ module.exports = function (app, config) {
         },
         filename: function (req, file, cb) {
             file.fileName = file.originalname;
-            cb(null, file.fieldname + '-' + Date.now());
+            //cb(null, file.fieldname + '-' + Date.now());
+            var getExtenstion = file.fieldname;
+            var ext = getExtenstion.split('.').pop();
+            var replStr = getExtenstion;
+            var newItem = replStr.replace('.', '');
+            var saveFileName = newItem + '-' + Date.now() + '.' + ext;
+            cb(null, saveFileName);
         }
     });
 
