@@ -8,7 +8,6 @@ professor ross hightower
 GitHub repository
 https://github.com/danjokeny/uccss
 
-
 Known Bugs
 1. cannot save a ticket without saving content -- is this a bug? or as expected?
 2. logout functionality not working?  
