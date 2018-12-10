@@ -39,7 +39,7 @@ export class NavBar {
             });
     };
 
-    //remove user object from session object, and set isAuthenticated to false
+    /*//remove user object from session object, and set isAuthenticated to false
     logout() {
         if (this.userObj) {
             this.auth.logout(this.userObj.email);
@@ -47,6 +47,12 @@ export class NavBar {
             this.isAuthenticated = this.auth.isAuthenticated();
             this.auth.logout();
         };
+    };*/
+
+    logout() {
+        sessionStorage.removeItem('user');
+        this.auth.logout();
+        this.isAuthenticated = this.auth.isAuthenticated();
     };
 
     //loading nav bar, set auth to false

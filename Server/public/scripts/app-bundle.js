@@ -726,6 +726,7 @@ define('resources/data/data-services',["exports", "aurelia-framework", "aurelia-
     _proto.uploadFiles = function uploadFiles(files, url) {
       var formData = new FormData();
       files.forEach(function (item, index) {
+        //formData.append(item.name + index, item);
         formData.append(item.name, item);
       });
       return this.httpClient.fetch(url, {
@@ -1191,16 +1192,19 @@ define('resources/elements/nav-bar',["exports", "aurelia-framework", "aurelia-ro
       });
     };
 
-    //remove user object from session object, and set isAuthenticated to false
+    /*//remove user object from session object, and set isAuthenticated to false
+    logout() {
+        if (this.userObj) {
+            this.auth.logout(this.userObj.email);
+            sessionStorage.removeItem('user');
+            this.isAuthenticated = this.auth.isAuthenticated();
+            this.auth.logout();
+        };
+    };*/
     _proto.logout = function logout() {
-      if (this.userObj) {
-        this.auth.logout(this.userObj.email);
-        sessionStorage.removeItem('user');
-        this.isAuthenticated = this.auth.isAuthenticated();
-        this.auth.logout();
-      }
-
-      ;
+      sessionStorage.removeItem('user');
+      this.auth.logout();
+      this.isAuthenticated = this.auth.isAuthenticated();
     };
 
     //loading nav bar, set auth to false
